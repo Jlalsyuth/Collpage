@@ -8,20 +8,20 @@ class WelcomeViewModel : ViewModel() {
     val onboardingItems = listOf(
         OnboardingData(
             R.drawable.collaboration,
-            "Collaboration",
-            "Let’s create a Space" + "\nFor your workflows",
+            "Kolaborasi",
+            "Buat ruang untuk kolaborasi",
             false
         ),
         OnboardingData(
             R.drawable.connection,
-            "Connection",
-            "Let’s make a relation with your teammates",
+            "Koneksi",
+            "Bangun Relasi Antar Mahasiswa",
             false
         ),
         OnboardingData(
             R.drawable.communication,
-            "Communication",
-            "Let’s discuss a chat with your work group",
+            "Komunikasi",
+            "Diskusikan pekerjaan bersama kolegamu!",
             true
         )
     )

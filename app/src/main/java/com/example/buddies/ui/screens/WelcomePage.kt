@@ -19,17 +19,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.buddies.R
 import com.example.buddies.data.OnboardingData
 import com.example.buddies.ui.WelcomeViewModel
+import com.example.buddies.ui.navigation.Screen
 import com.example.buddies.ui.theme.Poppins
 import com.google.accompanist.pager.*
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun WelcomePage(viewModel: WelcomeViewModel = viewModel()) {
+fun WelcomePage(viewModel: WelcomeViewModel = viewModel(), navController: NavHostController, ) {
     val pagerState = rememberPagerState()
-    OnboardingPager(viewModel.onboardingItems, pagerState)
+    OnboardingPager(viewModel.onboardingItems, pagerState, navController = navController)
 }
 
 @OptIn(ExperimentalPagerApi::class)
@@ -37,6 +39,7 @@ fun WelcomePage(viewModel: WelcomeViewModel = viewModel()) {
 fun OnboardingPager(
     item: List<OnboardingData>,
     pagerState: PagerState,
+    navController: NavHostController,
 ) {
     Column(
         Modifier
@@ -94,12 +97,12 @@ fun OnboardingPager(
                     fontWeight = FontWeight.SemiBold,
                     color = Color.Black,
                     fontSize = 35.sp,
-                    modifier = Modifier.width(240.dp)
+                    modifier = Modifier.width(270.dp)
                 )
             }
             if (item[pagerState.currentPage].isLastPage) {
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = { navController.navigate(Screen.Login.route) },
                     shape = RoundedCornerShape(15.dp),
                     colors = ButtonDefaults.buttonColors(Color(0xFF1C6973)),
                     modifier = Modifier.padding(top = 7.dp)
@@ -114,8 +117,8 @@ fun OnboardingPager(
                 }
             } else {
                 ClickableText(
-                    text = AnnotatedString("Skip"),
-                    onClick = { },
+                    text = AnnotatedString("Lewati"),
+                    onClick = { navController.navigate(Screen.Login.route) },
                     style = TextStyle(
                         fontFamily = Poppins,
                         fontWeight = FontWeight.SemiBold,

@@ -1,4 +1,4 @@
-package com.example.buddies
+package com.example.collpage
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

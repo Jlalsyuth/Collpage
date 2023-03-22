@@ -1,4 +1,4 @@
-package com.example.buddies.ui.screens
+package com.example.collpage.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -12,8 +12,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.buddies.R
-import com.example.buddies.ui.theme.Poppins
+import com.example.collpage.R
+import com.example.collpage.ui.theme.Poppins
 
 @Composable
 fun SignUpPage() {

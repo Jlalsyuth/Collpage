@@ -1,4 +1,4 @@
-package com.example.buddies.data
+package com.example.collpage.data
 
 import androidx.annotation.DrawableRes
 

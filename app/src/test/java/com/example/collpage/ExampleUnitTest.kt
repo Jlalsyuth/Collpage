@@ -1,4 +1,4 @@
-package com.example.buddies
+package com.example.collpage
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.example.buddies.ui.screens
+package com.example.collpage.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -18,12 +18,15 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.buddies.R
-import com.example.buddies.ui.AuthViewModel
-import com.example.buddies.ui.theme.Poppins
+import com.example.collpage.R
+import com.example.collpage.ui.AuthViewModel
+import com.example.collpage.ui.theme.Poppins
 
 @Composable
 fun LoginPage(viewModel: AuthViewModel = viewModel(), navigateToSignUp: (Int) -> Unit) {
+    val rememberMeIcon = if (viewModel.rememberMe) R.drawable.vector_2 else R.drawable.vector
+    val tint = if (viewModel.rememberMe) Color(0xFF1C6973) else Color(0xFF909090)
+
     Column {
         Box {
             Image(painterResource(R.drawable.vector_6), null, Modifier.padding(top = 22.dp))
@@ -102,10 +105,13 @@ fun LoginPage(viewModel: AuthViewModel = viewModel(), navigateToSignUp: (Int) ->
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row {
-                    IconButton(onClick = { /*TODO*/ }, Modifier.size(22.dp)) {
+                    IconButton(
+                        onClick = { viewModel.rememberMe = !viewModel.rememberMe },
+                        Modifier.size(22.dp)
+                    ) {
                         Icon(
-                            painterResource(R.drawable.vector), null,
-                            Modifier.size(22.dp), tint = Color(0xFF909090)
+                            painterResource(rememberMeIcon), null,
+                            Modifier.size(22.dp), tint = tint
                         )
                     }
                     Text(

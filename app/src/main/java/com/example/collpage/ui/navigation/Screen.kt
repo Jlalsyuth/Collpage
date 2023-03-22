@@ -1,4 +1,4 @@
-package com.example.buddies.ui.navigation
+package com.example.collpage.ui.navigation
 
 sealed class Screen(val route: String) {
     object WelcomePage: Screen("welcome")

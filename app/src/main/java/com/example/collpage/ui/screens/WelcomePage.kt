@@ -1,4 +1,4 @@
-package com.example.buddies.ui.screens
+package com.example.collpage.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,11 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.buddies.R
-import com.example.buddies.data.OnboardingData
-import com.example.buddies.ui.WelcomeViewModel
-import com.example.buddies.ui.navigation.Screen
-import com.example.buddies.ui.theme.Poppins
+import com.example.collpage.R
+import com.example.collpage.data.OnboardingData
+import com.example.collpage.ui.WelcomeViewModel
+import com.example.collpage.ui.navigation.Screen
+import com.example.collpage.ui.theme.Poppins
 import com.google.accompanist.pager.*
 
 @OptIn(ExperimentalPagerApi::class)

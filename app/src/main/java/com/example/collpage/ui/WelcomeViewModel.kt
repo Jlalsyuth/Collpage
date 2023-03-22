@@ -1,8 +1,8 @@
-package com.example.buddies.ui
+package com.example.collpage.ui
 
 import androidx.lifecycle.ViewModel
-import com.example.buddies.R
-import com.example.buddies.data.OnboardingData
+import com.example.collpage.R
+import com.example.collpage.data.OnboardingData
 
 class WelcomeViewModel : ViewModel() {
     val onboardingItems = listOf(

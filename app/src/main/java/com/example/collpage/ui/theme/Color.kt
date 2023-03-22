@@ -1,4 +1,4 @@
-package com.example.buddies.ui.theme
+package com.example.collpage.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

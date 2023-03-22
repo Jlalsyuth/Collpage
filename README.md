@@ -1,1 +1,1 @@
-# Buddies
+# Collpage

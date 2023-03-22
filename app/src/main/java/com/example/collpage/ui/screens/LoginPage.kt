@@ -14,6 +14,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,6 +27,18 @@ import com.example.collpage.ui.theme.Poppins
 fun LoginPage(viewModel: AuthViewModel = viewModel(), navigateToSignUp: (Int) -> Unit) {
     val rememberMeIcon = if (viewModel.rememberMe) R.drawable.vector_2 else R.drawable.vector
     val tint = if (viewModel.rememberMe) Color(0xFF1C6973) else Color(0xFF909090)
+    val passwordIconRes = if (viewModel.isPasswordVisible) R.drawable.mdi_eye_on
+    else R.drawable.mdi_eye_off
+    val visualTransformation = if (viewModel.isPasswordVisible) VisualTransformation.None
+    else PasswordVisualTransformation()
+    val passwordIcon = @Composable {
+        IconButton(
+            onClick = { viewModel.isPasswordVisible = !viewModel.isPasswordVisible },
+            Modifier.size(34.dp)
+        ) {
+            Icon(painterResource(passwordIconRes), null)
+        }
+    }
 
     Column {
         Box {
@@ -55,7 +68,8 @@ fun LoginPage(viewModel: AuthViewModel = viewModel(), navigateToSignUp: (Int) ->
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     backgroundColor = Color(0xFFD9D9D9),
                     unfocusedBorderColor = Color.Transparent,
-                    focusedBorderColor = Color(0xFF1C6973)
+                    focusedBorderColor = Color(0xFF1C6973),
+                    cursorColor = Color(0xFF1C6973)
                 ),
                 placeholder = {
                     Text(
@@ -84,7 +98,8 @@ fun LoginPage(viewModel: AuthViewModel = viewModel(), navigateToSignUp: (Int) ->
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     backgroundColor = Color(0xFFD9D9D9),
                     unfocusedBorderColor = Color.Transparent,
-                    focusedBorderColor = Color(0xFF1C6973)
+                    focusedBorderColor = Color(0xFF1C6973),
+                    cursorColor = Color(0xFF1C6973)
                 ),
                 placeholder = {
                     Text(
@@ -95,8 +110,9 @@ fun LoginPage(viewModel: AuthViewModel = viewModel(), navigateToSignUp: (Int) ->
                     )
                 },
                 textStyle = TextStyle(Color.Black),
-                visualTransformation = PasswordVisualTransformation(),
-                modifier = Modifier.width(320.dp)
+                visualTransformation = visualTransformation,
+                modifier = Modifier.width(320.dp),
+                trailingIcon = passwordIcon
             )
             Row(
                 Modifier

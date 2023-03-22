@@ -10,4 +10,5 @@ class AuthViewModel : ViewModel() {
     var emailUsername by mutableStateOf(TextFieldValue(""))
     var password by mutableStateOf(TextFieldValue(""))
     var rememberMe by mutableStateOf(false)
+    var isPasswordVisible by mutableStateOf(false)
 }

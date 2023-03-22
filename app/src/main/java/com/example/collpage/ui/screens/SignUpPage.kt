@@ -19,9 +19,9 @@ import com.example.collpage.ui.theme.Poppins
 fun SignUpPage() {
     Column {
         Box {
-            Image(painterResource(R.drawable.vector_6), null, Modifier.padding(top = 22.dp))
+            Image(painterResource(R.drawable.vector_3), null, Modifier.padding(top = 22.dp))
             Image(
-                painterResource(R.drawable.vector_3), null
+                painterResource(R.drawable.vector_6), null
             )
             Column(Modifier.padding(top = 45.dp, start = 35.dp)) {
                 Text(

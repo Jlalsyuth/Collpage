@@ -29,7 +29,7 @@ import com.google.accompanist.pager.*
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun WelcomePage(viewModel: WelcomeViewModel = viewModel(), navController: NavHostController, ) {
+fun WelcomePage(viewModel: WelcomeViewModel = viewModel(), navController: NavHostController) {
     val pagerState = rememberPagerState()
     OnboardingPager(viewModel.onboardingItems, pagerState, navController = navController)
 }

@@ -1,16 +1,16 @@
-package com.example.buddies.ui.navigation
+package com.example.collpage.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.buddies.ui.screens.LoginPage
-import com.example.buddies.ui.screens.SignUpPage
-import com.example.buddies.ui.screens.WelcomePage
+import com.example.collpage.ui.screens.LoginPage
+import com.example.collpage.ui.screens.SignUpPage
+import com.example.collpage.ui.screens.WelcomePage
 
 @Composable
-fun CollioApp(navController: NavHostController = rememberNavController()) {
+fun CollpageApp(navController: NavHostController = rememberNavController()) {
     AppNavHost(navController)
 }
 

@@ -1,4 +1,4 @@
-package com.example.buddies.ui
+package com.example.collpage.ui
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,4 +9,5 @@ import androidx.lifecycle.ViewModel
 class AuthViewModel : ViewModel() {
     var emailUsername by mutableStateOf(TextFieldValue(""))
     var password by mutableStateOf(TextFieldValue(""))
+    var rememberMe by mutableStateOf(false)
 }

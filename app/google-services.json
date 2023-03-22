@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "736768968561",
+    "project_id": "my-application-2588f",
+    "storage_bucket": "my-application-2588f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736768968561:android:a901b251e13fa1895f98d0",
+        "android_client_info": {
+          "package_name": "com.example.skinfinity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "736768968561-gdkt36tt8j9ev8v6jedcvg39hne5pvvs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChGSaeitnyMi3NJDkurkT0CS7aZ3eecQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "736768968561-gdkt36tt8j9ev8v6jedcvg39hne5pvvs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

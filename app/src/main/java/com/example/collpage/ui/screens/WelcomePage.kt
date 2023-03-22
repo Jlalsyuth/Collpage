@@ -81,7 +81,7 @@ fun OnboardingPager(
                     inactiveColor = Color(0xFF80A89F)
                 )
             }
-            Box {
+            Box(Modifier.padding(top = 22.dp)) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     Image(
                         painterResource(R.drawable.arrow_icon),

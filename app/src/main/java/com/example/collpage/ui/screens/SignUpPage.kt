@@ -15,7 +15,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.collpage.R
 import com.example.collpage.ui.AuthViewModel
 import com.example.collpage.ui.theme.Poppins
@@ -116,7 +115,7 @@ fun SignUpPage(
             )
             Button(
                 onClick = {
-                    viewModel.handleFirstSignup()
+                    viewModel.handleEmailInput()
                     if (viewModel.isValidEmail) {
                         navigateToNextPage()
                     }

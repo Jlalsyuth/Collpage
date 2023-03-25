@@ -20,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun ForgotPassword(viewModel: AuthViewModel = viewModel()) {
+    val textFieldPadding = if (!viewModel.isValidEmail) 12.dp else 30.dp
     Column {
         Box {
             Image(painterResource(R.drawable.vector_3), null, Modifier.padding(top = 22.dp))
@@ -38,6 +39,14 @@ fun ForgotPassword(viewModel: AuthViewModel = viewModel()) {
                     color = Color(0xFFE5E8CD)
                 )
             }
+        }
+        if (!viewModel.isValidEmail) {
+            Text(
+                "Tolong masukkan email yang valid!",
+                color = Color(0xFFE93030),
+                modifier = Modifier.padding(start = 50.dp, top = 15.dp),
+                fontSize = 12.sp
+            )
         }
         OutlinedTextField(
             value = viewModel.email,
@@ -60,10 +69,10 @@ fun ForgotPassword(viewModel: AuthViewModel = viewModel()) {
             textStyle = TextStyle(Color.Black),
             modifier = Modifier
                 .width(360.dp)
-                .padding(top = 30.dp, start = 50.dp)
+                .padding(top = textFieldPadding, start = 50.dp)
         )
         Row(Modifier.fillMaxWidth(), Arrangement.End) {
-            Button(onClick = {},
+            Button(onClick = { viewModel.handleEmailInput() },
                 enabled = viewModel.email.text != "",
                 shape = RoundedCornerShape(15.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFF1C6973)),

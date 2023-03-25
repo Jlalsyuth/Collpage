@@ -69,4 +69,8 @@ class AuthViewModel : ViewModel() {
         }
         isValidEmail = true
     }
+
+    fun sendPassResetEmail() {
+        auth.sendPasswordResetEmail(email.text)
+    }
 }

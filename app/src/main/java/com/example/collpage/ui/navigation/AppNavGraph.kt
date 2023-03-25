@@ -1,5 +1,5 @@
 package com.example.collpage.ui.navigation
-
+import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -49,7 +49,10 @@ fun AppNavHost(navController: NavHostController) {
             }
         }
         composable(Screen.ForgotPass.route) {
-            ForgotPassword()
+            ForgotPassword { navController.navigate(Screen.EmailCheck.route) }
+        }
+        composable(Screen.EmailCheck.route) {
+            EmailCheck { navController.navigate(Screen.Login.route) }
         }
     }
 }

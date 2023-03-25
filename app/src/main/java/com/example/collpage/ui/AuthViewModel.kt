@@ -44,6 +44,7 @@ class AuthViewModel : ViewModel() {
     fun handleSignup() {
         if (password.text != passwordConfirm.text) {
             authUiState = AuthUiState.Error
+            return
         }
         auth.createUserWithEmailAndPassword(email.text, password.text)
             .addOnCompleteListener { task ->

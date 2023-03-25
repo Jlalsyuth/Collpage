@@ -62,7 +62,7 @@ class AuthViewModel : ViewModel() {
             }
     }
 
-    fun handleFirstSignup() {
+    fun handleEmailInput() {
         if (!Patterns.EMAIL_ADDRESS.matcher(email.text).matches()) {
             isValidEmail = false
             return

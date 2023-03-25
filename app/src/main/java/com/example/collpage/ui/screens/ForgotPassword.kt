@@ -12,14 +12,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.collpage.HomeViewModel
 import com.example.collpage.R
 import com.example.collpage.ui.AuthViewModel
 import com.example.collpage.ui.theme.Poppins
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun ForgotPassword(viewModel: AuthViewModel = viewModel()) {
+fun ForgotPassword(
+    viewModel: AuthViewModel = viewModel(),
+    navigateToEmailCheck: () -> Unit
+) {
     val textFieldPadding = if (!viewModel.isValidEmail) 12.dp else 30.dp
     Column {
         Box {
@@ -72,7 +74,14 @@ fun ForgotPassword(viewModel: AuthViewModel = viewModel()) {
                 .padding(top = textFieldPadding, start = 50.dp)
         )
         Row(Modifier.fillMaxWidth(), Arrangement.End) {
-            Button(onClick = { viewModel.handleEmailInput() },
+            Button(
+                onClick = {
+                    viewModel.handleEmailInput()
+                    if (viewModel.isValidEmail) {
+                        viewModel.sendPassResetEmail()
+                        navigateToEmailCheck()
+                    }
+                },
                 enabled = viewModel.email.text != "",
                 shape = RoundedCornerShape(15.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFF1C6973)),

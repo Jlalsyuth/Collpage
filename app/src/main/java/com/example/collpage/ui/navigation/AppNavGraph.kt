@@ -1,13 +1,16 @@
 package com.example.collpage.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.collpage.ui.screens.LoginPage
-import com.example.collpage.ui.screens.SignUpPage
-import com.example.collpage.ui.screens.WelcomePage
+import com.example.collpage.ui.AuthViewModel
+import com.example.collpage.ui.screens.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun CollpageApp(navController: NavHostController = rememberNavController()) {
@@ -16,15 +19,33 @@ fun CollpageApp(navController: NavHostController = rememberNavController()) {
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Screen.WelcomePage.route) {
+    val auth: FirebaseAuth = Firebase.auth
+    val startDestination = if (auth.currentUser != null) Screen.Home.route
+    else Screen.WelcomePage.route
+    NavHost(navController = navController, startDestination = startDestination) {
         composable(Screen.WelcomePage.route) {
             WelcomePage(navController = navController)
         }
         composable(Screen.Login.route) {
-            LoginPage { navController.navigate(Screen.SignUp.route) }
+            LoginPage(
+                navigateToSignUp = { navController.navigate(Screen.SignUp.route) },
+                navigateToHome = { navController.navigate(Screen.Home.route) }
+            )
         }
-        composable(Screen.SignUp.route) {
-            SignUpPage()
+        composable(Screen.SignUp.route) { backStackEntry ->
+            val viewModel: AuthViewModel = viewModel(backStackEntry)
+            SignUpPage(viewModel) { navController.navigate(Screen.SignUp2.route) }
+        }
+        composable(Screen.SignUp2.route) {
+            val viewModel: AuthViewModel = viewModel(navController.previousBackStackEntry!!)
+            SignUpPage2(viewModel) { navController.navigate(Screen.Home.route) }
+        }
+        composable(Screen.Home.route) {
+            HomeScreen {
+                navController.navigate(Screen.WelcomePage.route) {
+                    popUpTo(Screen.WelcomePage.route)
+                }
+            }
         }
     }
 }

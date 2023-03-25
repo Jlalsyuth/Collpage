@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -20,11 +21,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.collpage.R
+import com.example.collpage.ui.AuthUiState
 import com.example.collpage.ui.AuthViewModel
 import com.example.collpage.ui.theme.Poppins
 
 @Composable
-fun LoginPage(viewModel: AuthViewModel = viewModel(), navigateToSignUp: (Int) -> Unit) {
+fun LoginPage(
+    viewModel: AuthViewModel = viewModel(),
+    navigateToSignUp: (Int) -> Unit,
+    navigateToHome: () -> Unit
+) {
     val rememberMeIcon = if (viewModel.rememberMe) R.drawable.vector_2 else R.drawable.vector
     val tint = if (viewModel.rememberMe) Color(0xFF1C6973) else Color(0xFF909090)
     val passwordIconRes = if (viewModel.isPasswordVisible) R.drawable.mdi_eye_on
@@ -37,6 +43,13 @@ fun LoginPage(viewModel: AuthViewModel = viewModel(), navigateToSignUp: (Int) ->
             Modifier.size(34.dp)
         ) {
             Icon(painterResource(passwordIconRes), null)
+        }
+    }
+
+    LaunchedEffect(key1 = viewModel.authUiState) {
+        when(viewModel.authUiState) {
+            is AuthUiState.Success -> navigateToHome()
+            else -> { }
         }
     }
 
@@ -60,6 +73,17 @@ fun LoginPage(viewModel: AuthViewModel = viewModel(), navigateToSignUp: (Int) ->
             }
         }
         Column(Modifier.padding(start = 48.dp, top = 15.dp)) {
+            if (viewModel.authUiState == AuthUiState.Error) {
+                Text(
+                    "E-mail / Password yang anda masukkan salah! " +
+                            "Silahkan masukkan E-mail / Password yang benar!",
+                    color = Color(0xFFE93030),
+                    modifier = Modifier
+                        .width(300.dp)
+                        .padding(end = 5.dp),
+                    fontSize = 12.sp
+                )
+            }
             Text("Masuk", fontWeight = FontWeight.Bold, fontSize = 30.sp)
             OutlinedTextField(
                 value = viewModel.emailUsername,
@@ -152,7 +176,8 @@ fun LoginPage(viewModel: AuthViewModel = viewModel(), navigateToSignUp: (Int) ->
                 )
             }
             Button(
-                onClick = { },
+                onClick = { viewModel.handleLogin() },
+                enabled = viewModel.emailUsername.text != "" && viewModel.password.text != "",
                 shape = RoundedCornerShape(25.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFF1C6973)),
                 modifier = Modifier

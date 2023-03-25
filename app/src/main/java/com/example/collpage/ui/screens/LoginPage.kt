@@ -29,7 +29,8 @@ import com.example.collpage.ui.theme.Poppins
 fun LoginPage(
     viewModel: AuthViewModel = viewModel(),
     navigateToSignUp: (Int) -> Unit,
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
+    navigateToForgotPass: (Int) -> Unit
 ) {
     val rememberMeIcon = if (viewModel.rememberMe) R.drawable.vector_2 else R.drawable.vector
     val tint = if (viewModel.rememberMe) Color(0xFF1C6973) else Color(0xFF909090)
@@ -172,7 +173,7 @@ fun LoginPage(
                         fontSize = 13.sp,
                         color = MaterialTheme.colors.onSurface
                     ),
-                    onClick = { }
+                    onClick = navigateToForgotPass
                 )
             }
             Button(

@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -243,18 +244,42 @@ fun TermsConditionsDialog(onDismiss: () -> Unit) {
                     fontWeight = FontWeight.Light,
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,
-                    modifier = Modifier.padding(horizontal = 17.dp, vertical = 2.dp)
+                    modifier = Modifier.padding(horizontal = 17.dp)
                 )
-                Column(
-                    Modifier.fillMaxWidth().padding(horizontal = 4.dp)
-                        .background(shape = RoundedCornerShape(14.dp), color = Color(0xFFD9D9D9))
+                Surface(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 15.dp, vertical = 5.dp),
+                    RoundedCornerShape(14.dp),
+                    Color(0xFFD9D9D9)
                 ) {
-                    Text(
-                        "1. Registrasi Akun:",
-                        fontFamily = Poppins,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 12.sp
-                    )
+                    Column(Modifier.padding(start = 8.dp, bottom = 5.dp)) {
+                        Text(
+                            "1. Registrasi Akun:",
+                            fontFamily = Poppins,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 12.sp
+                        )
+                        Text(
+                            stringResource(R.string.register_tc),
+                            fontFamily = Poppins,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 12.sp
+                        )
+                        Spacer(Modifier.height(12.dp))
+                        Text(
+                            "2. Penggunaan Aplikasi:",
+                            fontFamily = Poppins,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 12.sp
+                        )
+                        Text(
+                            stringResource(R.string.app_usage_tc),
+                            fontFamily = Poppins,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 12.sp
+                        )
+                    }
                 }
             }
         }

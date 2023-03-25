@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Collpage</string>
+    <string name="register_tc">
+        a. Setiap pengguna yang ingin menggunakan aplikasi Collpage harus mendaftar dengan
+        menyediakan informasi yang akurat,seperti nama lengkap, alamat email yang valid,
+        dan nomor telepon yang dapat dihubungi.\n
+        b. Setiap pengguna bertanggung jawab untuk menjaga keamanan dan kerahasiaan kata sandi
+        dan informasi login mereka sendiri. Pengguna bertanggung jawab atas segala aktivitas yang
+        terjadi di akun mereka.
+    </string>
+    <string name="app_usage_tc">
+        a. Setiap pengguna Collpage diharapkan menggunakan aplikasi ini hanya untuk tujuan yang sah
+        dan sesuai dengan hukum yang berlaku.\n
+        b. Pengguna Collpage tidak diizinkan untuk melakukan tindakan yang dapat merugikan
+        atau membahayakan aplikasi, pengguna lain, atau pihak ketiga.\n
+        c. Pengguna Collpage harus mematuhi seluruh ketentuan dan persyaratan yang
+        ditetapkan dalam aplikasi.
+    </string>
 </resources>

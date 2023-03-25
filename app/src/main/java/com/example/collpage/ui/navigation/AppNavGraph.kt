@@ -29,7 +29,8 @@ fun AppNavHost(navController: NavHostController) {
         composable(Screen.Login.route) {
             LoginPage(
                 navigateToSignUp = { navController.navigate(Screen.SignUp.route) },
-                navigateToHome = { navController.navigate(Screen.Home.route) }
+                navigateToHome = { navController.navigate(Screen.Home.route) },
+                navigateToForgotPass = { navController.navigate(Screen.ForgotPass.route) }
             )
         }
         composable(Screen.SignUp.route) { backStackEntry ->
@@ -46,6 +47,9 @@ fun AppNavHost(navController: NavHostController) {
                     popUpTo(Screen.WelcomePage.route)
                 }
             }
+        }
+        composable(Screen.ForgotPass.route) {
+            ForgotPassword()
         }
     }
 }

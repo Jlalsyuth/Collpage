@@ -54,6 +54,36 @@ fun SignUpPage(
                 )
             }
             OutlinedTextField(
+                value = viewModel.fullName,
+                onValueChange = { viewModel.fullName = it },
+                shape = RoundedCornerShape(10.dp),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    backgroundColor = Color(0xFFD9D9D9),
+                    unfocusedBorderColor = Color.Transparent,
+                    focusedBorderColor = Color(0xFF1C6973),
+                    cursorColor = Color(0xFF1C6973)
+                ),
+                placeholder = {
+                    Text(
+                        "Nama Lengkap",
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.Light,
+                        color = Color(0xFF909090)
+                    )
+                },
+                textStyle = TextStyle(Color.Black),
+                modifier = Modifier
+                    .width(320.dp)
+                    .padding(top = 10.dp)
+            )
+            Text(
+                "Isi nama lengkap anda",
+                fontFamily = Poppins,
+                fontWeight = FontWeight.ExtraLight,
+                fontSize = 13.sp,
+                modifier = Modifier.padding(bottom = 14.dp)
+            )
+            OutlinedTextField(
                 value = viewModel.username,
                 onValueChange = { viewModel.username = it },
                 shape = RoundedCornerShape(10.dp),
@@ -120,7 +150,8 @@ fun SignUpPage(
                         navigateToNextPage()
                     }
                 },
-                enabled = viewModel.username.text != "" && viewModel.email.text != "",
+                enabled = viewModel.username.text != "" && viewModel.email.text != ""
+                          && viewModel.fullName.text != "",
                 shape = RoundedCornerShape(25.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFF1C6973)),
                 modifier = Modifier.width(330.dp).padding(end = 18.dp, top = 15.dp)

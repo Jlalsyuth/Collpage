@@ -20,17 +20,16 @@ sealed interface AuthUiState {
 class AuthViewModel : ViewModel() {
     var email by mutableStateOf(TextFieldValue(""))
     var emailUsername by mutableStateOf(TextFieldValue(""))
+    var fullName by mutableStateOf(TextFieldValue(""))
     var username by mutableStateOf(TextFieldValue(""))
     var passwordConfirm by mutableStateOf(TextFieldValue(""))
     var password by mutableStateOf(TextFieldValue(""))
     var rememberMe by mutableStateOf(false)
     var isPasswordVisible by mutableStateOf(false)
     var isValidEmail by mutableStateOf(true)
-        private set
     var authUiState: AuthUiState by mutableStateOf(AuthUiState.Default)
     var openTCDialog by mutableStateOf(false)
     var openConfirmDialog by mutableStateOf(false)
-
 
     var auth: FirebaseAuth = Firebase.auth
     private val db = Firebase.firestore
@@ -52,6 +51,7 @@ class AuthViewModel : ViewModel() {
                 if (task.isSuccessful) {
                     authUiState = AuthUiState.Success
                     val user = hashMapOf(
+                        "name" to fullName.text,
                         "email" to email.text,
                         "username" to username.text,
                         "occupation" to "",

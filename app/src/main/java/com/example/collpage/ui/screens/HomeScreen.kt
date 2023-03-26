@@ -13,13 +13,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.collpage.HomeViewModel
-import com.example.collpage.R
-import com.example.collpage.ui.theme.Poppins
-import kotlinx.coroutines.launch
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.collpage.R
+import com.example.collpage.ui.HomeViewModel
+import com.example.collpage.ui.theme.Poppins
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
@@ -28,6 +28,7 @@ fun HomeScreen(
 ) {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+    val userData = viewModel.user
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -38,15 +39,32 @@ fun HomeScreen(
             }
         },
         drawerContent = {
-            Button(
-                onClick = {
-                    Firebase.auth.signOut()
-                    navigateToWelcome()
-                },
-                shape = RoundedCornerShape(17.dp),
-                colors = ButtonDefaults.buttonColors(Color.Red)
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFF1C6973))
+                    .padding(start = 23.dp, top = 50.dp)
             ) {
-                Text("Log Out", fontFamily = Poppins, fontWeight = FontWeight.SemiBold)
+                Text(
+                    "Selamat Datang!", fontFamily = Poppins,
+                    fontSize = 23.sp, fontWeight = FontWeight.SemiBold,
+                    color = Color(0xFFE5E8CD)
+                )
+                Text(
+                    userData.name, fontFamily = Poppins,
+                    fontSize = 23.sp, fontWeight = FontWeight.Medium,
+                    color = Color.White
+                )
+                Button(
+                    onClick = {
+                        Firebase.auth.signOut()
+                        navigateToWelcome()
+                    },
+                    shape = RoundedCornerShape(17.dp),
+                    colors = ButtonDefaults.buttonColors(Color.Red)
+                ) {
+                    Text("Log Out", fontFamily = Poppins, fontWeight = FontWeight.SemiBold)
+                }
             }
         }
     ) {

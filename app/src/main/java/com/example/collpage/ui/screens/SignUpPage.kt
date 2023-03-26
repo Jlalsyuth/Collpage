@@ -53,6 +53,22 @@ fun SignUpPage(
                     fontSize = 12.sp
                 )
             }
+            if (!viewModel.isValidUsername) {
+                Text(
+                    "Username tidak boleh mengandung spasi dan karakter spesial!",
+                    color = Color(0xFFE93030),
+                    modifier = Modifier.padding(end = 5.dp),
+                    fontSize = 12.sp
+                )
+            }
+            if (viewModel.isUsernameTaken) {
+                Text(
+                    "Username sudah dimiliki!",
+                    color = Color(0xFFE93030),
+                    modifier = Modifier.padding(end = 5.dp),
+                    fontSize = 12.sp
+                )
+            }
             OutlinedTextField(
                 value = viewModel.fullName,
                 onValueChange = { viewModel.fullName = it },
@@ -145,8 +161,8 @@ fun SignUpPage(
             )
             Button(
                 onClick = {
-                    viewModel.handleEmailInput()
-                    if (viewModel.isValidEmail) {
+                    viewModel.handleFirstSignUp()
+                    if (viewModel.isValidEmail && viewModel.isValidUsername) {
                         navigateToNextPage()
                     }
                 },

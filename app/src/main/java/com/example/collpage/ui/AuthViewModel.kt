@@ -27,6 +27,8 @@ class AuthViewModel : ViewModel() {
     var rememberMe by mutableStateOf(false)
     var isPasswordVisible by mutableStateOf(false)
     var isValidEmail by mutableStateOf(true)
+    var isValidUsername by mutableStateOf(true)
+    var isUsernameTaken by mutableStateOf(false)
     var authUiState: AuthUiState by mutableStateOf(AuthUiState.Default)
     var openTCDialog by mutableStateOf(false)
     var openConfirmDialog by mutableStateOf(false)
@@ -60,6 +62,24 @@ class AuthViewModel : ViewModel() {
                     auth.currentUser?.let { db.collection("users").document(it.uid).set(user) }
                 }
             }
+    }
+
+    fun handleFirstSignUp() {
+        val usernamePattern = Regex("^[a-zA-Z0-9_.-]*\$")
+        if (!usernamePattern.containsMatchIn(username.text)) {
+            isValidUsername = false
+            return
+        }
+        isValidUsername = true
+//        db.collection("users")
+//            .whereEqualTo("username", username.text).get()
+//            .addOnCompleteListener {
+//                isUsernameTaken = it.result != null
+//            }
+//        if (isUsernameTaken) {
+//            return
+//        }
+        handleEmailInput()
     }
 
     fun handleEmailInput() {

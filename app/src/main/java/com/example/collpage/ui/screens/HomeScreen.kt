@@ -1,14 +1,18 @@
 package com.example.collpage.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -45,6 +49,14 @@ fun HomeScreen(
                     .background(Color(0xFF1C6973))
                     .padding(start = 23.dp, top = 50.dp)
             ) {
+                Image(
+                    painterResource(R.drawable.default_profile),
+                    null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(120.dp)
+                )
                 Text(
                     "Selamat Datang!", fontFamily = Poppins,
                     fontSize = 23.sp, fontWeight = FontWeight.SemiBold,
@@ -72,7 +84,7 @@ fun HomeScreen(
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = 35.dp),
+                    .padding(top = 35.dp, bottom = 32.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 Row(
@@ -101,6 +113,54 @@ fun HomeScreen(
                     )
                 }
             }
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 35.dp), Arrangement.SpaceBetween) {
+                Text(
+                    "Berita", fontFamily = Poppins,
+                    fontSize = 20.sp, fontWeight = FontWeight.SemiBold,
+                )
+                IconButton(onClick = { /*TODO*/ }, Modifier.size(20.dp)) {
+                    Icon(painterResource(R.drawable.collapse), null)
+                }
+            }
+            Surface(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 35.dp), RoundedCornerShape(25.dp),
+                Color(0xFFE5E8CD)
+            ) {
+                Row(Modifier.padding(start = 24.dp), Arrangement.SpaceBetween) {
+                    Column(Modifier.padding(top = 25.dp)) {
+                        Text(
+                            "Raih Pekerjaan Impianmu",
+                            fontFamily = Poppins,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 23.sp,
+                            modifier = Modifier.width(195.dp)
+                        )
+                        Surface(
+                            Modifier
+                                .width(105.dp)
+                                .padding(top = 5.dp, bottom = 10.dp)
+                                .clickable { },
+                            RoundedCornerShape(15.dp), Color(0xFF1C6973)
+                        ) {
+                            Text(
+                                "Cari Kerja",
+                                fontFamily = Poppins,
+                                color = Color.White,
+                                modifier = Modifier.padding(start = 10.dp)
+                            )
+                        }
+                    }
+                    Image(
+                        painterResource(R.drawable.image), null,
+                        Modifier.padding(top = 8.dp, end = 25.dp)
+                    )
+                }
+            }
         }
     }
 }
@@ -118,7 +178,7 @@ fun HomeTopAppBar(onNavIconClick: () -> Unit) {
         Row(Modifier.padding(end = 12.dp, top = 20.dp)) {
             Row(
                 modifier = Modifier
-                    .padding(end = 18.dp)
+                    .padding(end = 8.dp)
                     .background(
                         Color(0xFFD9D9D9), RoundedCornerShape(30.dp)
                     )
@@ -147,14 +207,6 @@ fun HomeTopAppBar(onNavIconClick: () -> Unit) {
                         .size(32.dp)
                         .padding(top = 11.dp, end = 12.dp)
                 )
-            }
-            Column(Modifier.padding(top = 5.dp)) {
-                IconButton(onClick = { /*TODO*/ }, Modifier.size(34.dp)) {
-                    Icon(
-                        painterResource(R.drawable.notification_bell), null,
-                        Modifier.size(34.dp), Color.Black
-                    )
-                }
             }
         }
     }

@@ -14,6 +14,7 @@ private const val TAG = "MyActivity"
 class HomeViewModel : ViewModel() {
     private val db = Firebase.firestore
     private val currentUserId = Firebase.auth.currentUser?.uid
+    var selectedItem by mutableStateOf("")
     var user by mutableStateOf(User())
 
     init {

@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.collpage.R
 import com.example.collpage.ui.HomeViewModel
+import com.example.collpage.ui.User
 import com.example.collpage.ui.theme.Poppins
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -35,6 +36,21 @@ fun HomeScreen(
     val userData = viewModel.user
     Scaffold(
         scaffoldState = scaffoldState,
+        floatingActionButton = {
+            FloatingActionButton(
+                { /*TODO*/ },
+                Modifier.size(75.dp),
+                backgroundColor = Color(0xFF1C6973)) {
+                Icon(
+                    painterResource(R.drawable.logo_button),
+                    null,
+                    Modifier.size(60.dp),
+                    Color(0xFFE5E8CD)
+                )
+            }
+        },
+        isFloatingActionButtonDocked = true,
+        floatingActionButtonPosition = FabPosition.Center,
         topBar = {
             HomeTopAppBar {
                 scope.launch {
@@ -42,43 +58,8 @@ fun HomeScreen(
                 }
             }
         },
-        drawerContent = {
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .background(Color(0xFF1C6973))
-                    .padding(start = 23.dp, top = 50.dp)
-            ) {
-                Image(
-                    painterResource(R.drawable.default_profile),
-                    null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .size(120.dp)
-                )
-                Text(
-                    "Selamat Datang!", fontFamily = Poppins,
-                    fontSize = 23.sp, fontWeight = FontWeight.SemiBold,
-                    color = Color(0xFFE5E8CD)
-                )
-                Text(
-                    userData.name, fontFamily = Poppins,
-                    fontSize = 23.sp, fontWeight = FontWeight.Medium,
-                    color = Color.White
-                )
-                Button(
-                    onClick = {
-                        Firebase.auth.signOut()
-                        navigateToWelcome()
-                    },
-                    shape = RoundedCornerShape(17.dp),
-                    colors = ButtonDefaults.buttonColors(Color.Red)
-                ) {
-                    Text("Log Out", fontFamily = Poppins, fontWeight = FontWeight.SemiBold)
-                }
-            }
-        }
+        bottomBar = { BottomBar(viewModel) },
+        drawerContent = { HomeNavDrawer(userData, navigateToWelcome) }
     ) {
         Column(Modifier.padding(it)) {
             Row(
@@ -116,7 +97,8 @@ fun HomeScreen(
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 35.dp), Arrangement.SpaceBetween) {
+                    .padding(horizontal = 35.dp), Arrangement.SpaceBetween
+            ) {
                 Text(
                     "Berita", fontFamily = Poppins,
                     fontSize = 20.sp, fontWeight = FontWeight.SemiBold,
@@ -135,10 +117,11 @@ fun HomeScreen(
                     Column(Modifier.padding(top = 25.dp)) {
                         Text(
                             "Raih Pekerjaan Impianmu",
+                            Modifier.width(195.dp),
+                            Color.Black,
                             fontFamily = Poppins,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 23.sp,
-                            modifier = Modifier.width(195.dp)
                         )
                         Surface(
                             Modifier
@@ -205,9 +188,75 @@ fun HomeTopAppBar(onNavIconClick: () -> Unit) {
                     null,
                     Modifier
                         .size(32.dp)
-                        .padding(top = 11.dp, end = 12.dp)
+                        .padding(top = 11.dp, end = 12.dp),
+                    Color.Black
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun BottomBar(viewModel: HomeViewModel) {
+    viewModel.selectedItem = "Home"
+    val homeIcon = if (viewModel.selectedItem == "Home") R.drawable.home_active else R.drawable.home
+    val homeIconTint = if (viewModel.selectedItem == "Home") Color(0xFF1C6973)
+    else MaterialTheme.colors.onSurface
+    BottomAppBar(cutoutShape = CircleShape, backgroundColor = MaterialTheme.colors.surface) {
+        BottomNavigationItem(
+            viewModel.selectedItem == "Home",
+            { viewModel.selectedItem = "Home" },
+            { Icon(painterResource(homeIcon), null, tint = homeIconTint) }
+        )
+        BottomNavigationItem(
+            selected = false,
+            onClick = {},
+            icon = {},
+            enabled = false
+        )
+        BottomNavigationItem(
+            selected = viewModel.selectedItem == "Notifications",
+            onClick = { viewModel.selectedItem = "Notifications" },
+            icon = { Icon(painterResource(R.drawable.notification_bell), null) },
+        )
+    }
+}
+
+@Composable
+fun HomeNavDrawer(userData: User, navigateToWelcome: () -> Unit) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Color(0xFF1C6973))
+            .padding(start = 23.dp, top = 50.dp)
+    ) {
+        Image(
+            painterResource(R.drawable.default_profile),
+            null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .clip(CircleShape)
+                .size(120.dp)
+        )
+        Text(
+            "Selamat Datang!", fontFamily = Poppins,
+            fontSize = 23.sp, fontWeight = FontWeight.SemiBold,
+            color = Color(0xFFE5E8CD)
+        )
+        Text(
+            userData.name, fontFamily = Poppins,
+            fontSize = 23.sp, fontWeight = FontWeight.Medium,
+            color = Color.White
+        )
+        Button(
+            onClick = {
+                Firebase.auth.signOut()
+                navigateToWelcome()
+            },
+            shape = RoundedCornerShape(17.dp),
+            colors = ButtonDefaults.buttonColors(Color.Red)
+        ) {
+            Text("Log Out", fontFamily = Poppins, fontWeight = FontWeight.SemiBold)
         }
     }
 }

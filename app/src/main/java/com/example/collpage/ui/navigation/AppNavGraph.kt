@@ -1,5 +1,5 @@
 package com.example.collpage.ui.navigation
-import android.provider.ContactsContract.CommonDataKinds.Email
+
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.collpage.ui.AuthViewModel
+import com.example.collpage.ui.HomeViewModel
 import com.example.collpage.ui.screens.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -22,6 +23,7 @@ fun AppNavHost(navController: NavHostController) {
     val auth: FirebaseAuth = Firebase.auth
     val startDestination = if (auth.currentUser != null) Screen.Home.route
     else Screen.WelcomePage.route
+    val homeViewModel: HomeViewModel = viewModel()
     NavHost(navController = navController, startDestination = startDestination) {
         composable(Screen.WelcomePage.route) {
             WelcomePage(navController = navController)
@@ -42,17 +44,24 @@ fun AppNavHost(navController: NavHostController) {
             SignUpPage2(viewModel) { navController.navigate(Screen.Home.route) }
         }
         composable(Screen.Home.route) {
-            HomeScreen {
+            HomeScreen({
                 navController.navigate(Screen.WelcomePage.route) {
                     popUpTo(Screen.WelcomePage.route)
                 }
-            }
+            }, {
+                navController.navigate(Screen.Profile.route) {
+                    popUpTo(Screen.Home.route)
+                }
+            }, homeViewModel)
         }
         composable(Screen.ForgotPass.route) {
             ForgotPassword { navController.navigate(Screen.EmailCheck.route) }
         }
         composable(Screen.EmailCheck.route) {
             EmailCheck { navController.navigate(Screen.Login.route) }
+        }
+        composable(Screen.Profile.route) {
+            ProfileScreen(homeViewModel)
         }
     }
 }

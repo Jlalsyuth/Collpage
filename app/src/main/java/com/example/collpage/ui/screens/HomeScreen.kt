@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -17,23 +18,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.collpage.R
+import com.example.collpage.getInputColor
 import com.example.collpage.ui.HomeViewModel
 import com.example.collpage.ui.User
 import com.example.collpage.ui.theme.Poppins
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = viewModel(),
-    navigateToWelcome: () -> Unit
+    navigateToWelcome: () -> Unit,
+    navigateToProfile: () -> Unit,
+    viewModel: HomeViewModel
 ) {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     val userData = viewModel.user
+
+    LaunchedEffect(key1 = userData) {
+        if (userData == User()) {
+            viewModel.getUserData()
+        }
+    }
+
     Scaffold(
         scaffoldState = scaffoldState,
         floatingActionButton = {
@@ -65,22 +75,23 @@ fun HomeScreen(
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = 35.dp, bottom = 32.dp),
-                horizontalArrangement = Arrangement.Center
+                    .padding(vertical = 25.dp, horizontal = 20.dp),
+                Arrangement.Center
             ) {
                 Row(
                     Modifier
-                        .width(335.dp)
+                        .width(290.dp)
                         .height(60.dp)
+                        .padding(end = 12.dp)
                         .background(
-                            Color(0xFFD9D9D9), RoundedCornerShape(35.dp)
+                            getInputColor(), RoundedCornerShape(35.dp)
                         )
                         .clickable { }
                 ) {
                     Icon(
                         painterResource(R.drawable.search),
                         null,
-                        tint = Color.Black,
+                        tint = MaterialTheme.colors.onSurface,
                         modifier = Modifier
                             .padding(top = 12.dp, start = 25.dp)
                             .size(35.dp)
@@ -93,6 +104,15 @@ fun HomeScreen(
                         color = Color(0xFF909090)
                     )
                 }
+                Image(
+                    painterResource(R.drawable.default_profile),
+                    null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(60.dp)
+                        .clickable { navigateToProfile() }
+                )
             }
             Row(
                 Modifier
@@ -163,7 +183,7 @@ fun HomeTopAppBar(onNavIconClick: () -> Unit) {
                 modifier = Modifier
                     .padding(end = 8.dp)
                     .background(
-                        Color(0xFFD9D9D9), RoundedCornerShape(30.dp)
+                        getInputColor(), RoundedCornerShape(30.dp)
                     )
                     .clickable { }
             ) {
@@ -181,15 +201,14 @@ fun HomeTopAppBar(onNavIconClick: () -> Unit) {
                     fontSize = 18.sp,
                     modifier = Modifier.padding(top = 5.dp, end = 10.dp),
                     fontWeight = FontWeight.Medium,
-                    color = Color.Black
+                    color = MaterialTheme.colors.onSurface
                 )
                 Icon(
                     painterResource(R.drawable.arrow_down),
                     null,
                     Modifier
                         .size(32.dp)
-                        .padding(top = 11.dp, end = 12.dp),
-                    Color.Black
+                        .padding(top = 11.dp, end = 12.dp)
                 )
             }
         }

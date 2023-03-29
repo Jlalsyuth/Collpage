@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.collpage.R
+import com.example.collpage.getInputColor
 import com.example.collpage.ui.AuthUiState
 import com.example.collpage.ui.AuthViewModel
 import com.example.collpage.ui.theme.Poppins
@@ -91,7 +92,7 @@ fun SignUpPage2(
                 onValueChange = { viewModel.password = it },
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    backgroundColor = Color(0xFFD9D9D9),
+                    backgroundColor = getInputColor(),
                     unfocusedBorderColor = Color.Transparent,
                     focusedBorderColor = Color(0xFF1C6973),
                     cursorColor = Color(0xFF1C6973)
@@ -104,7 +105,6 @@ fun SignUpPage2(
                         color = Color(0xFF909090)
                     )
                 },
-                textStyle = TextStyle(Color.Black),
                 visualTransformation = visualTransformation,
                 modifier = Modifier.width(320.dp),
                 trailingIcon = passwordIcon
@@ -123,7 +123,7 @@ fun SignUpPage2(
                 onValueChange = { viewModel.passwordConfirm = it },
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    backgroundColor = Color(0xFFD9D9D9),
+                    backgroundColor = getInputColor(),
                     unfocusedBorderColor = Color.Transparent,
                     focusedBorderColor = Color(0xFF1C6973),
                     cursorColor = Color(0xFF1C6973)
@@ -136,7 +136,6 @@ fun SignUpPage2(
                         color = Color(0xFF909090)
                     )
                 },
-                textStyle = TextStyle(Color.Black),
                 visualTransformation = visualTransformation,
                 modifier = Modifier.width(320.dp),
                 trailingIcon = passwordIcon
@@ -214,7 +213,9 @@ fun SignUpPage2(
 }
 
 @Composable
-fun TermsConditionsDialog(onDismiss: () -> Unit) {
+fun TermsConditionsDialog(
+    onDismiss: () -> Unit,
+) {
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             modifier = Modifier
@@ -250,7 +251,7 @@ fun TermsConditionsDialog(onDismiss: () -> Unit) {
                         .fillMaxWidth()
                         .padding(horizontal = 15.dp, vertical = 5.dp),
                     RoundedCornerShape(14.dp),
-                    Color(0xFFD9D9D9)
+                    getInputColor()
                 ) {
                     Column(Modifier.padding(start = 8.dp, bottom = 5.dp)) {
                         Text(
@@ -279,6 +280,15 @@ fun TermsConditionsDialog(onDismiss: () -> Unit) {
                             fontSize = 12.sp
                         )
                     }
+                }
+                TextButton(
+                    onDismiss,
+                    Modifier.padding(vertical = 3.dp)
+                ) {
+                    Text(
+                        "Tutup", color = Color(0xFF1C6973), fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold, fontFamily = Poppins
+                    )
                 }
             }
         }

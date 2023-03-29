@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.collpage.R
+import com.example.collpage.getInputColor
 import com.example.collpage.ui.AuthViewModel
 import com.example.collpage.ui.theme.Poppins
 
@@ -74,7 +75,7 @@ fun SignUpPage(
                 onValueChange = { viewModel.fullName = it },
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    backgroundColor = Color(0xFFD9D9D9),
+                    backgroundColor = getInputColor(),
                     unfocusedBorderColor = Color.Transparent,
                     focusedBorderColor = Color(0xFF1C6973),
                     cursorColor = Color(0xFF1C6973)
@@ -87,7 +88,6 @@ fun SignUpPage(
                         color = Color(0xFF909090)
                     )
                 },
-                textStyle = TextStyle(Color.Black),
                 modifier = Modifier
                     .width(320.dp)
                     .padding(top = 10.dp)
@@ -104,7 +104,7 @@ fun SignUpPage(
                 onValueChange = { viewModel.username = it },
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    backgroundColor = Color(0xFFD9D9D9),
+                    backgroundColor = getInputColor(),
                     unfocusedBorderColor = Color.Transparent,
                     focusedBorderColor = Color(0xFF1C6973),
                     cursorColor = Color(0xFF1C6973)
@@ -117,7 +117,6 @@ fun SignUpPage(
                         color = Color(0xFF909090)
                     )
                 },
-                textStyle = TextStyle(Color.Black),
                 modifier = Modifier
                     .width(320.dp)
                     .padding(top = 10.dp)
@@ -134,7 +133,7 @@ fun SignUpPage(
                 onValueChange = { viewModel.email = it },
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    backgroundColor = Color(0xFFD9D9D9),
+                    backgroundColor = getInputColor(),
                     unfocusedBorderColor = Color.Transparent,
                     focusedBorderColor = Color(0xFF1C6973),
                     cursorColor = Color(0xFF1C6973)
@@ -147,7 +146,6 @@ fun SignUpPage(
                         color = Color(0xFF909090)
                     )
                 },
-                textStyle = TextStyle(Color.Black),
                 modifier = Modifier
                     .width(320.dp)
                     .padding(top = 10.dp)
@@ -170,7 +168,9 @@ fun SignUpPage(
                           && viewModel.fullName.text != "",
                 shape = RoundedCornerShape(25.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFF1C6973)),
-                modifier = Modifier.width(330.dp).padding(end = 18.dp, top = 15.dp)
+                modifier = Modifier
+                    .width(330.dp)
+                    .padding(end = 18.dp, top = 15.dp)
             ) {
                 Text(
                     "Selanjutnya",

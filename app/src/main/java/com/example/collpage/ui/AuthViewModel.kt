@@ -51,7 +51,6 @@ class AuthViewModel : ViewModel() {
         auth.createUserWithEmailAndPassword(email.text, password.text)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    authUiState = AuthUiState.Success
                     val user = hashMapOf(
                         "name" to fullName.text,
                         "email" to email.text,
@@ -60,6 +59,7 @@ class AuthViewModel : ViewModel() {
                         "profile_desc" to ""
                     )
                     auth.currentUser?.let { db.collection("users").document(it.uid).set(user) }
+                    authUiState = AuthUiState.Success
                 }
             }
     }

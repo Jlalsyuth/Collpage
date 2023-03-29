@@ -3,9 +3,10 @@ package com.example.collpage.ui.navigation
 sealed class Screen(val route: String) {
     object WelcomePage: Screen("welcome")
     object Login: Screen("login")
-    object SignUp: Screen("SignUp")
+    object SignUp: Screen("signUp")
     object Home: Screen("home")
-    object SignUp2: Screen("SignUp2")
-    object ForgotPass: Screen("ForgotPass")
-    object EmailCheck: Screen("EmailCheck")
+    object SignUp2: Screen("signUp2")
+    object ForgotPass: Screen("forgotPass")
+    object EmailCheck: Screen("emailCheck")
+    object Profile: Screen("profile")
 }

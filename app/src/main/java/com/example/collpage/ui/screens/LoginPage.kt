@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.collpage.R
+import com.example.collpage.getInputColor
 import com.example.collpage.ui.AuthUiState
 import com.example.collpage.ui.AuthViewModel
 import com.example.collpage.ui.theme.Poppins
@@ -91,7 +92,7 @@ fun LoginPage(
                 onValueChange = { viewModel.emailUsername = it },
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    backgroundColor = Color(0xFFD9D9D9),
+                    backgroundColor = getInputColor(),
                     unfocusedBorderColor = Color.Transparent,
                     focusedBorderColor = Color(0xFF1C6973),
                     cursorColor = Color(0xFF1C6973)
@@ -104,7 +105,6 @@ fun LoginPage(
                         color = Color(0xFF909090)
                     )
                 },
-                textStyle = TextStyle(Color.Black),
                 modifier = Modifier
                     .width(320.dp)
                     .padding(top = 10.dp)
@@ -121,7 +121,7 @@ fun LoginPage(
                 onValueChange = { viewModel.password = it },
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    backgroundColor = Color(0xFFD9D9D9),
+                    backgroundColor = getInputColor(),
                     unfocusedBorderColor = Color.Transparent,
                     focusedBorderColor = Color(0xFF1C6973),
                     cursorColor = Color(0xFF1C6973)
@@ -134,7 +134,6 @@ fun LoginPage(
                         color = Color(0xFF909090)
                     )
                 },
-                textStyle = TextStyle(Color.Black),
                 visualTransformation = visualTransformation,
                 modifier = Modifier.width(320.dp),
                 trailingIcon = passwordIcon

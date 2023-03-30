@@ -18,23 +18,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.collpage.R
-import com.example.collpage.ui.Education
-import com.example.collpage.ui.HomeViewModel
-import com.example.collpage.ui.Project
+import com.example.collpage.ui.*
 import com.example.collpage.ui.theme.Poppins
 
 @Composable
-fun ProfileScreen(
-    viewModel: HomeViewModel = viewModel()
-) {
+fun ProfileScreen(viewModel: HomeViewModel = viewModel()) {
     val user = viewModel.user
     val userProjects = viewModel.userProjects
     val userEducations = viewModel.userEducations
+    val userExperiences = viewModel.userExperiences
+    val userAchievements = viewModel.userAchievements
 
-    LaunchedEffect(key1 = userProjects) {
-        if (userProjects.isEmpty() && userEducations.isEmpty()) {
+    LaunchedEffect(true) {
+        if (userProjects.isEmpty() && userEducations.isEmpty()
+            && userExperiences.isEmpty() && userAchievements.isEmpty()) {
             viewModel.getUserProjects()
             viewModel.getUserEducations()
+            viewModel.getUserExperiences()
+            viewModel.getUserAchievements()
         }
     }
 
@@ -91,7 +92,8 @@ fun ProfileScreen(
         item {
             Column(Modifier.padding(start = 18.dp, top = 10.dp)) {
                 Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {
-                    Text("Tentang", fontFamily = Poppins, fontWeight = FontWeight.SemiBold)
+                    Text("Tentang", Modifier.padding(top = 4.dp),
+                        fontFamily = Poppins, fontWeight = FontWeight.SemiBold)
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(
                             painterResource(R.drawable.edit_icon), null,
@@ -99,54 +101,40 @@ fun ProfileScreen(
                         )
                     }
                 }
-                Text(user.profile_desc, Modifier.padding(vertical = 5.dp), fontFamily = Poppins)
+                Text(user.profile_desc, Modifier.padding(end = 22.dp, bottom = 10.dp),
+                    fontFamily = Poppins, fontSize = 14.sp)
             }
             Divider(thickness = 1.dp)
         }
         item {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp, start = 18.dp), Arrangement.SpaceBetween) {
-                Text("Projects", fontFamily = Poppins, fontWeight = FontWeight.SemiBold)
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        painterResource(R.drawable.edit_icon), null,
-                        tint = Color(0xFF1C6973)
-                    )
-                }
-            }
+            HeaderSection("Projects")
         }
         items(userProjects) {
             ProjectSection(it)
         }
         item {
-            Divider(Modifier.padding(top = 8.dp), thickness = 1.dp)
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp, start = 18.dp), Arrangement.SpaceBetween) {
-                Text("Pendidikan", fontFamily = Poppins, fontWeight = FontWeight.SemiBold)
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        painterResource(R.drawable.edit_icon), null,
-                        tint = Color(0xFF1C6973)
-                    )
-                }
-            }
+            HeaderSection("Pendidikan")
         }
         items(userEducations) {
             EducationSection(it)
         }
+        item {
+            HeaderSection("Pengalaman")
+        }
+        items(userExperiences) {
+            ExperienceSection(it)
+        }
+        item {
+            HeaderSection("Prestasi")
+        }
+        items(userAchievements) {
+            AchievementSection(it)
+        }
     }
 }
 
-
-
 @Composable
-fun ProjectSection(
-    project: Project
-) {
+fun ProjectSection(project: Project) {
     Column(Modifier.padding(start = 18.dp, top = 4.dp)) {
         Text(project.name, fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
         Text(project.type, Modifier.padding(top = 5.dp), fontFamily = Poppins, fontSize = 14.sp)
@@ -161,15 +149,54 @@ fun ProjectSection(
 }
 
 @Composable
-fun EducationSection(
-    education: Education
-) {
+fun EducationSection(education: Education) {
     Column(Modifier.padding(start = 18.dp, top = 4.dp)) {
         Text(education.name, fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
         Text(education.major, Modifier.padding(top = 5.dp), fontFamily = Poppins, fontSize = 14.sp)
         Text("${education.year_in} - ${education.year_out}", fontFamily = Poppins, fontSize = 14.sp)
         education.activities.forEach {
-            Text(it)
+            Text("- $it", Modifier.padding(start = 5.dp), fontFamily = Poppins , fontSize = 14.sp)
         }
+    }
+}
+
+@Composable
+fun ExperienceSection(experience: Experience) {
+    val yearOut = if (experience.year_out == 0) "sekarang" else experience.year_out.toString()
+    Column(Modifier.padding(start = 18.dp, top = 4.dp)) {
+        Text(experience.name, fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+        Text(experience.department, Modifier.padding(top = 5.dp), fontFamily = Poppins, fontSize = 14.sp)
+        Text("${experience.year_in} - $yearOut", fontFamily = Poppins, fontSize = 14.sp)
+        experience.activities.forEach {
+            Text("- $it", Modifier.padding(start = 5.dp), fontFamily = Poppins , fontSize = 14.sp)
+        }
+    }
+}
+
+@Composable
+fun HeaderSection(title: String) {
+    Divider(Modifier.padding(top = 8.dp), thickness = 1.dp)
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp, start = 18.dp), Arrangement.SpaceBetween) {
+        Text(title, Modifier.padding(top = 4.dp),
+            fontFamily = Poppins, fontWeight = FontWeight.SemiBold)
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                painterResource(R.drawable.edit_icon), null,
+                tint = Color(0xFF1C6973)
+            )
+        }
+    }
+}
+
+@Composable
+fun AchievementSection(achievement: Achievement) {
+    Column(Modifier.padding(start = 18.dp, top = 4.dp)) {
+        Text(achievement.name, fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+        Text(achievement.organizer, Modifier.padding(top = 5.dp), fontFamily = Poppins, fontSize = 14.sp)
+        Text("Diterbitkan ${achievement.published}", Modifier.padding(top = 5.dp),
+            fontFamily = Poppins, fontSize = 14.sp)
     }
 }

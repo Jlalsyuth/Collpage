@@ -26,8 +26,11 @@ class HomeViewModel : ViewModel() {
     private val _userEducations = mutableStateListOf<Education>()
     val userEducations: List<Education> = _userEducations
 
-//    private val _userExperiences = mutableStateListOf<Experience>()
-//    val userEducations: List<Education> = _userEducations
+    private val _userExperiences = mutableStateListOf<Experience>()
+    val userExperiences: List<Experience> = _userExperiences
+
+    private val _userAchievements = mutableStateListOf<Achievement>()
+    val userAchievements: List<Achievement> = _userAchievements
 
     fun getUserData() {
         viewModelScope.launch {
@@ -39,6 +42,18 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    fun getUserExperiences() {
+        viewModelScope.launch {
+            db.collection("experiences")
+                .whereEqualTo("user_id", currentUserId.toString()).get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        _userExperiences.add(document.toObject(Experience::class.java))
+                    }
+                }
+        }
+    }
+
     fun getUserEducations() {
         viewModelScope.launch {
             db.collection("educations")
@@ -46,6 +61,18 @@ class HomeViewModel : ViewModel() {
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
                         _userEducations.add(document.toObject(Education::class.java))
+                    }
+                }
+        }
+    }
+
+    fun getUserAchievements() {
+        viewModelScope.launch {
+            db.collection("achievements")
+                .whereEqualTo("user_id", currentUserId.toString()).get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        _userAchievements.add(document.toObject(Achievement::class.java))
                     }
                 }
         }
@@ -94,5 +121,21 @@ data class Education(
     val year_in: Int = 0,
     val year_out: Int = 0,
     val activities: List<String> = listOf(),
+    val user_id: String = ""
+)
+
+data class Experience(
+    val name: String = "",
+    val department: String = "",
+    val year_in: Int = 0,
+    val year_out: Int = 0,
+    val activities: List<String> = listOf(),
+    val user_id: String = ""
+)
+
+data class Achievement(
+    val name: String = "",
+    val organizer: String = "",
+    val published: String = "",
     val user_id: String = ""
 )

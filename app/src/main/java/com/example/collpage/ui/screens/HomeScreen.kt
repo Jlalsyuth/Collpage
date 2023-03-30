@@ -26,8 +26,8 @@ import com.example.collpage.ui.theme.Poppins
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
-import androidx.lifecycle.viewmodel.compose.viewModel
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(
     navigateToWelcome: () -> Unit,
@@ -35,6 +35,10 @@ fun HomeScreen(
     viewModel: HomeViewModel
 ) {
     val scaffoldState = rememberScaffoldState()
+    val sheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded }
+    )
     val scope = rememberCoroutineScope()
     val userData = viewModel.user
 
@@ -44,124 +48,135 @@ fun HomeScreen(
         }
     }
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        floatingActionButton = {
-            FloatingActionButton(
-                { /*TODO*/ },
-                Modifier.size(75.dp),
-                backgroundColor = Color(0xFF1C6973)) {
-                Icon(
-                    painterResource(R.drawable.logo_button),
-                    null,
-                    Modifier.size(60.dp),
-                    Color(0xFFE5E8CD)
-                )
-            }
-        },
-        isFloatingActionButtonDocked = true,
-        floatingActionButtonPosition = FabPosition.Center,
-        topBar = {
-            HomeTopAppBar {
-                scope.launch {
-                    scaffoldState.drawerState.open()
-                }
-            }
-        },
-        bottomBar = { BottomBar(viewModel) },
-        drawerContent = { HomeNavDrawer(userData, navigateToWelcome) }
+    ModalBottomSheetLayout(
+        { BottomSheet() }, sheetState = sheetState,
+        sheetShape = RoundedCornerShape(20.dp, 20.dp)
     ) {
-        Column(Modifier.padding(it)) {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 25.dp, horizontal = 20.dp),
-                Arrangement.Center
-            ) {
-                Row(
-                    Modifier
-                        .width(290.dp)
-                        .height(60.dp)
-                        .padding(end = 12.dp)
-                        .background(
-                            getInputColor(), RoundedCornerShape(35.dp)
-                        )
-                        .clickable { }
+        Scaffold(
+            scaffoldState = scaffoldState,
+            floatingActionButton = {
+                FloatingActionButton(
+                    {
+                        scope.launch {
+                            if (sheetState.isVisible) sheetState.hide()
+                            else sheetState.show()
+                        }
+                    },
+                    Modifier.size(75.dp),
+                    backgroundColor = Color(0xFF1C6973)
                 ) {
                     Icon(
-                        painterResource(R.drawable.search),
+                        painterResource(R.drawable.logo_button),
                         null,
-                        tint = MaterialTheme.colors.onSurface,
-                        modifier = Modifier
-                            .padding(top = 12.dp, start = 25.dp)
-                            .size(35.dp)
-                    )
-                    Text(
-                        "Search...",
-                        fontFamily = Poppins,
-                        fontSize = 17.sp,
-                        modifier = Modifier.padding(start = 20.dp, top = 16.dp),
-                        color = Color(0xFF909090)
+                        Modifier.size(60.dp),
+                        Color(0xFFE5E8CD)
                     )
                 }
-                Image(
-                    painterResource(R.drawable.default_profile),
-                    null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .size(60.dp)
-                        .clickable { navigateToProfile() }
-                )
-            }
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 35.dp), Arrangement.SpaceBetween
-            ) {
-                Text(
-                    "Berita", fontFamily = Poppins,
-                    fontSize = 20.sp, fontWeight = FontWeight.SemiBold,
-                )
-                IconButton(onClick = { /*TODO*/ }, Modifier.size(20.dp)) {
-                    Icon(painterResource(R.drawable.collapse), null)
+            },
+            isFloatingActionButtonDocked = true,
+            floatingActionButtonPosition = FabPosition.Center,
+            topBar = {
+                HomeTopAppBar {
+                    scope.launch {
+                        scaffoldState.drawerState.open()
+                    }
                 }
-            }
-            Surface(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 35.dp), RoundedCornerShape(25.dp),
-                Color(0xFFE5E8CD)
-            ) {
-                Row(Modifier.padding(start = 24.dp), Arrangement.SpaceBetween) {
-                    Column(Modifier.padding(top = 25.dp)) {
-                        Text(
-                            "Raih Pekerjaan Impianmu",
-                            Modifier.width(195.dp),
-                            Color.Black,
-                            fontFamily = Poppins,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 23.sp,
-                        )
-                        Surface(
-                            Modifier
-                                .width(105.dp)
-                                .padding(top = 5.dp, bottom = 10.dp)
-                                .clickable { },
-                            RoundedCornerShape(15.dp), Color(0xFF1C6973)
-                        ) {
-                            Text(
-                                "Cari Kerja",
-                                fontFamily = Poppins,
-                                color = Color.White,
-                                modifier = Modifier.padding(start = 10.dp)
+            },
+            bottomBar = { BottomBar(viewModel) },
+            drawerContent = { HomeNavDrawer(userData, navigateToWelcome) }
+        ) {
+            Column(Modifier.padding(it)) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 25.dp, horizontal = 20.dp),
+                    Arrangement.Center
+                ) {
+                    Row(
+                        Modifier
+                            .width(290.dp)
+                            .height(60.dp)
+                            .padding(end = 12.dp)
+                            .background(
+                                getInputColor(), RoundedCornerShape(35.dp)
                             )
-                        }
+                            .clickable { }
+                    ) {
+                        Icon(
+                            painterResource(R.drawable.search),
+                            null,
+                            tint = MaterialTheme.colors.onSurface,
+                            modifier = Modifier
+                                .padding(top = 12.dp, start = 25.dp)
+                                .size(35.dp)
+                        )
+                        Text(
+                            "Search...",
+                            fontFamily = Poppins,
+                            fontSize = 17.sp,
+                            modifier = Modifier.padding(start = 20.dp, top = 16.dp),
+                            color = Color(0xFF909090)
+                        )
                     }
                     Image(
-                        painterResource(R.drawable.image), null,
-                        Modifier.padding(top = 8.dp, end = 25.dp)
+                        painterResource(R.drawable.default_profile),
+                        null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .size(60.dp)
+                            .clickable { navigateToProfile() }
                     )
+                }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 35.dp), Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        "Berita", fontFamily = Poppins,
+                        fontSize = 20.sp, fontWeight = FontWeight.SemiBold,
+                    )
+                    IconButton(onClick = { /*TODO*/ }, Modifier.size(20.dp)) {
+                        Icon(painterResource(R.drawable.collapse), null)
+                    }
+                }
+                Surface(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 35.dp), RoundedCornerShape(25.dp),
+                    Color(0xFFE5E8CD)
+                ) {
+                    Row(Modifier.padding(start = 24.dp), Arrangement.SpaceBetween) {
+                        Column(Modifier.padding(top = 25.dp)) {
+                            Text(
+                                "Raih Pekerjaan Impianmu",
+                                Modifier.width(195.dp),
+                                Color.Black,
+                                fontFamily = Poppins,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 23.sp,
+                            )
+                            Surface(
+                                Modifier
+                                    .width(105.dp)
+                                    .padding(top = 5.dp, bottom = 10.dp)
+                                    .clickable { },
+                                RoundedCornerShape(15.dp), Color(0xFF1C6973)
+                            ) {
+                                Text(
+                                    "Cari Kerja",
+                                    fontFamily = Poppins,
+                                    color = Color.White,
+                                    modifier = Modifier.padding(start = 10.dp)
+                                )
+                            }
+                        }
+                        Image(
+                            painterResource(R.drawable.image), null,
+                            Modifier.padding(top = 8.dp, end = 25.dp)
+                        )
+                    }
                 }
             }
         }
@@ -278,4 +293,30 @@ fun HomeNavDrawer(userData: User, navigateToWelcome: () -> Unit) {
             Text("Log Out", fontFamily = Poppins, fontWeight = FontWeight.SemiBold)
         }
     }
+}
+
+@Composable
+fun BottomSheet() {
+    Column(Modifier.fillMaxHeight()) {
+        Row(Modifier.padding(horizontal = 100.dp, vertical = 12.dp)) {
+            Divider(
+                Modifier
+                    .background(color = Color.LightGray, shape = RoundedCornerShape(2.dp))
+                    .fillMaxWidth(),
+                thickness = 5.dp
+            )
+        }
+        Column(Modifier.padding(25.dp)) {
+            Text(
+                text = "Bottom sheet",
+                style = MaterialTheme.typography.h6
+            )
+            Spacer(modifier = Modifier.height(32.dp))
+            Text(
+                text = "Click outside the bottom sheet to hide it",
+                style = MaterialTheme.typography.body1
+            )
+        }
+    }
+
 }

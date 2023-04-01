@@ -31,7 +31,6 @@ class AuthViewModel : ViewModel() {
     var isUsernameTaken by mutableStateOf(false)
     var authUiState: AuthUiState by mutableStateOf(AuthUiState.Default)
     var openTCDialog by mutableStateOf(false)
-    var openConfirmDialog by mutableStateOf(false)
 
     var auth: FirebaseAuth = Firebase.auth
     private val db = Firebase.firestore

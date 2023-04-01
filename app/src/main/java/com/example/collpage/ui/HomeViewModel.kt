@@ -33,13 +33,11 @@ class HomeViewModel : ViewModel() {
     val userAchievements: List<Achievement> = _userAchievements
 
     fun getUserData() {
-        viewModelScope.launch {
-            db.collection("users").document(currentUserId.toString()).get()
-                .addOnCompleteListener {
-                    user = it.result.toObject(User::class.java)!!
-                    Log.d(TAG, user.toString())
-                }
-        }
+        db.collection("users").document(currentUserId.toString()).get()
+            .addOnCompleteListener {
+                user = it.result.toObject(User::class.java)!!
+                Log.d(TAG, user.toString())
+            }
     }
 
     fun getUserExperiences() {

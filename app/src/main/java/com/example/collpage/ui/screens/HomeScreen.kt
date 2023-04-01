@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     navigateToWelcome: () -> Unit,
     navigateToProfile: () -> Unit,
+    navigateToSearch: () -> Unit,
     viewModel: HomeViewModel
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -100,7 +101,7 @@ fun HomeScreen(
                             .background(
                                 getInputColor(), RoundedCornerShape(35.dp)
                             )
-                            .clickable { }
+                            .clickable { navigateToSearch() }
                     ) {
                         Icon(
                             painterResource(R.drawable.search),
@@ -178,6 +179,9 @@ fun HomeScreen(
                         )
                     }
                 }
+                Column {
+                    //Bikin disini broo
+                }
             }
         }
     }
@@ -236,7 +240,7 @@ fun BottomBar(viewModel: HomeViewModel) {
     val homeIcon = if (viewModel.selectedItem == "Home") R.drawable.home_active else R.drawable.home
     val homeIconTint = if (viewModel.selectedItem == "Home") Color(0xFF1C6973)
     else MaterialTheme.colors.onSurface
-    BottomAppBar(cutoutShape = CircleShape, backgroundColor = MaterialTheme.colors.surface) {
+    BottomAppBar(backgroundColor = MaterialTheme.colors.surface, cutoutShape = CircleShape) {
         BottomNavigationItem(
             viewModel.selectedItem == "Home",
             { viewModel.selectedItem = "Home" },

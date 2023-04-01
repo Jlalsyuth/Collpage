@@ -52,7 +52,7 @@ fun AppNavHost(navController: NavHostController) {
                 navController.navigate(Screen.Profile.route) {
                     popUpTo(Screen.Home.route)
                 }
-            }, homeViewModel)
+            }, { navController.navigate(Screen.SearchPage.route) }, homeViewModel)
         }
         composable(Screen.ForgotPass.route) {
             ForgotPassword { navController.navigate(Screen.EmailCheck.route) }
@@ -62,6 +62,9 @@ fun AppNavHost(navController: NavHostController) {
         }
         composable(Screen.Profile.route) {
             ProfileScreen(homeViewModel)
+        }
+        composable(Screen.SearchPage.route) {
+            SearchPage()
         }
     }
 }

@@ -179,39 +179,43 @@ fun HomeScreen(
                         )
                     }
                 }
-                Column {
-                    Card(elevation = 5.dp, modifier = Modifier.padding()) {
-                        Column() {
-                            Row(modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {
-                                Row {
-                                    Image(painterResource(R.drawable.microsoft), null)
-                                    Text(
-                                        "microsoft",
-                                        fontFamily = Poppins,
-
-                                        )
-                                }
-                                Icon(painterResource(R.drawable.bookmark), null)
+                Spacer(Modifier.height(20.dp))
+                Card(modifier = Modifier.padding(horizontal = 20.dp)) {
+                    Column(Modifier.padding(top = 8.dp)) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 20.dp),
+                            Arrangement.SpaceBetween
+                        ) {
+                            Row {
+                                Image(painterResource(R.drawable.microsoft), null,
+                                    Modifier.padding(top = 5.dp))
+                                Text(
+                                    "Microsoft",
+                                    Modifier.padding(start = 5.dp),
+                                    fontFamily = Poppins
+                                )
                             }
-                            Text(
-                                "We Are Hiring!",
-                                fontFamily = Poppins,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                            Text(
-                                "For more information : ",
-                                fontFamily = Poppins,
-                                fontSize = 10.sp,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                            Image(
-                                painterResource(R.drawable.rectangle2), null,
-                                Modifier.fillMaxSize()
-                            )
+                            Icon(painterResource(R.drawable.bookmark), null)
                         }
-
-
+                        Text(
+                            "We Are Hiring!",
+                            Modifier.padding(horizontal = 20.dp),
+                            fontFamily = Poppins,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Text(
+                            "For more information : ",
+                            Modifier.padding(horizontal = 20.dp).padding(bottom = 10.dp),
+                            fontFamily = Poppins,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Image(
+                            painterResource(R.drawable.rectangle_2), null,
+                        )
                     }
                 }
             }
@@ -328,31 +332,52 @@ fun HomeNavDrawer(userData: User, navigateToWelcome: () -> Unit) {
         ) {
             Text("Log Out", fontFamily = Poppins, fontWeight = FontWeight.SemiBold)
         }
+        Button(
+            onClick = { },
+            Modifier.height(60.dp).padding(top = 8.dp),
+            shape = RoundedCornerShape(17.dp),
+            colors = ButtonDefaults.buttonColors(Color(0xFF4E8989))
+        ) {
+            Icon(painterResource(R.drawable.settings), null, tint = Color.White)
+            Text("Pengaturan", fontFamily = Poppins, fontWeight = FontWeight.SemiBold)
+        }
     }
 }
 
 @Composable
 fun BottomSheet() {
-    Column(Modifier.fillMaxHeight()) {
-        Row(Modifier.padding(horizontal = 100.dp, vertical = 12.dp)) {
+    Column(
+        Modifier
+            .fillMaxHeight()
+            .padding(horizontal = 18.dp)) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 17.dp), Arrangement.Center) {
             Divider(
                 Modifier
                     .background(color = Color.LightGray, shape = RoundedCornerShape(2.dp))
-                    .fillMaxWidth(),
+                    .width(250.dp),
                 thickness = 5.dp
             )
         }
-        Column(Modifier.padding(25.dp)) {
+        Row(Modifier.fillMaxWidth().padding(top = 20.dp), Arrangement.SpaceBetween) {
             Text(
-                text = "Bottom sheet",
-                style = MaterialTheme.typography.h6
+                "Aktivitas",
+                fontFamily = Poppins,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 25.sp
             )
-            Spacer(modifier = Modifier.height(32.dp))
-            Text(
-                text = "Click outside the bottom sheet to hide it",
-                style = MaterialTheme.typography.body1
-            )
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(painterResource(R.drawable.notification_bell), null)
+            }
         }
+        Surface(
+            Modifier
+                .height(120.dp)
+                .fillMaxWidth(),
+            RoundedCornerShape(22.dp),
+            Color(0xFFF2B46B)
+        ) { }
     }
-
 }

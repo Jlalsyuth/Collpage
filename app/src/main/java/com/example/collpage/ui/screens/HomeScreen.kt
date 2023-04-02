@@ -180,7 +180,16 @@ fun HomeScreen(
                     }
                 }
                 Column {
-                    //Bikin disini broo
+                    Row(){
+                    Card(elevation = 5.dp, modifier = Modifier.padding(106.dp), backgroundColor = Color.Magenta) {
+                        Row() {
+                            Image(
+                                painterResource(R.drawable.ironman), null,
+                                Modifier.padding(top = 8.dp, end = 25.dp)
+                            )
+                        }
+                        }
+                    }
                 }
             }
         }

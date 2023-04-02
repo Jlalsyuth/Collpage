@@ -180,15 +180,38 @@ fun HomeScreen(
                     }
                 }
                 Column {
-                    Row(){
-                    Card(elevation = 5.dp, modifier = Modifier.padding(106.dp), backgroundColor = Color.Magenta) {
-                        Row() {
+                    Card(elevation = 5.dp, modifier = Modifier.padding()) {
+                        Column() {
+                            Row(modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {
+                                Row {
+                                    Image(painterResource(R.drawable.microsoft), null)
+                                    Text(
+                                        "microsoft",
+                                        fontFamily = Poppins,
+
+                                        )
+                                }
+                                Icon(painterResource(R.drawable.bookmark), null)
+                            }
+                            Text(
+                                "We Are Hiring!",
+                                fontFamily = Poppins,
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            Text(
+                                "For more information : ",
+                                fontFamily = Poppins,
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
                             Image(
-                                painterResource(R.drawable.ironman), null,
-                                Modifier.padding(top = 8.dp, end = 25.dp)
+                                painterResource(R.drawable.rectangle2), null,
+                                Modifier.fillMaxSize()
                             )
                         }
-                        }
+
+
                     }
                 }
             }

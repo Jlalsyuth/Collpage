@@ -18,7 +18,10 @@ import com.example.collpage.ui.SearchViewModel
 import com.example.collpage.ui.theme.Poppins
 
 @Composable
-fun SearchPage(viewModel: SearchViewModel = viewModel()) {
+fun SearchPage(
+    viewModel: SearchViewModel = viewModel(),
+    navigateToFilter: () -> Unit
+) {
     Column(Modifier.padding(horizontal = 8.dp).padding(top = 20.dp, bottom = 12.dp)) {
         Row(Modifier.fillMaxWidth(), Arrangement.SpaceAround) {
             Box(Modifier.padding(top = 7.dp)) {
@@ -45,7 +48,7 @@ fun SearchPage(viewModel: SearchViewModel = viewModel()) {
                 }
             )
             Surface(Modifier.padding(top = 7.dp), CircleShape, Color(0xFF1C6973)) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = navigateToFilter) {
                     Icon(painterResource(R.drawable.filter), null, tint = Color.White)
                 }
             }

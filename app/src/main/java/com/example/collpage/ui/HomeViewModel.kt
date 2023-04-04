@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.ktx.auth
@@ -19,6 +20,8 @@ class HomeViewModel : ViewModel() {
     private val currentUserId = Firebase.auth.currentUser?.uid
     var selectedItem by mutableStateOf("")
     var user by mutableStateOf(User())
+
+    var activeCard by mutableStateOf("Jadwal")
 
     private val _userProjects = mutableStateListOf<Project>()
     val userProjects: List<Project> = _userProjects
@@ -136,4 +139,15 @@ data class Achievement(
     val organizer: String = "",
     val published: String = "",
     val user_id: String = ""
+)
+
+class ActivityNote(
+    val title: String,
+    val desc: String,
+    val iconId: Int,
+    var activeIconTint: Color,
+    var activeBgColor: Color,
+    var activeIconBgColor: Color,
+    var activeBackIconColor: Color,
+    val backIconId: Int
 )

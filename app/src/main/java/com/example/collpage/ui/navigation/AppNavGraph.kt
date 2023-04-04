@@ -64,7 +64,10 @@ fun AppNavHost(navController: NavHostController) {
             ProfileScreen(homeViewModel)
         }
         composable(Screen.SearchPage.route) {
-            SearchPage()
+            SearchPage { navController.navigate(Screen.Filter.route) }
+        }
+        composable(Screen.Filter.route) {
+            FilterScreen()
         }
     }
 }

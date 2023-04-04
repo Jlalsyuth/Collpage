@@ -54,7 +54,7 @@ fun ProfileScreen(viewModel: HomeViewModel = viewModel()) {
                     Arrangement.SpaceBetween
                 ) {
                     Image(
-                        painterResource(R.drawable.ambatukam),
+                        painterResource(R.drawable.monke_2),
                         null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier

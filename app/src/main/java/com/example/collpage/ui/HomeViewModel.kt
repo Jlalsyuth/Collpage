@@ -12,6 +12,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 private const val TAG = "MyActivity"
 
@@ -21,7 +22,10 @@ class HomeViewModel : ViewModel() {
     var selectedItem by mutableStateOf("")
     var user by mutableStateOf(User())
 
-    var activeCard by mutableStateOf("Jadwal")
+    var sheetContent: SheetContent by mutableStateOf(SheetContent.NOTE)
+
+    val months = listOf("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
+    "September", "Oktober", "November", "Desember")
 
     private val _userProjects = mutableStateListOf<Project>()
     val userProjects: List<Project> = _userProjects
@@ -41,6 +45,18 @@ class HomeViewModel : ViewModel() {
                 user = it.result.toObject(User::class.java)!!
                 Log.d(TAG, user.toString())
             }
+    }
+
+    fun addUserProject(newProject: HashMap<String, Any>) {
+        val id = UUID.randomUUID().toString()
+        val projectsUsers = hashMapOf(
+            "project_id" to id,
+            "user_id" to currentUserId
+        )
+        viewModelScope.launch {
+            db.collection("projects").document(id).set(newProject)
+            db.collection("projects_users").add(projectsUsers)
+        }
     }
 
     fun getUserExperiences() {
@@ -98,6 +114,11 @@ class HomeViewModel : ViewModel() {
                 _userProjects.add(project)
             }
     }
+}
+
+enum class SheetContent {
+    NOTE, COMMENT, START_MONTHS,
+    END_MONTHS, START_YEARS, END_YEARS
 }
 
 data class User(

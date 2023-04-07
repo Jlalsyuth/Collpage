@@ -65,16 +65,13 @@ fun AddProject(
     ) {
         Column {
             Surface(Modifier.fillMaxWidth(), color = Color(0xFF1C6973)) {
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 20.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
+                Row(Modifier.fillMaxWidth().padding(top = 20.dp), Arrangement.Start) {
                     IconButton(onClick = navigateBack) {
                         Icon(painterResource(R.drawable.back_arrow), null,
                             Modifier, Color(0xFFE5E8CD))
                     }
+                }
+                Row(Modifier.fillMaxWidth().padding(vertical = 20.dp), Arrangement.Center) {
                     Text(
                         "Tambah Project",
                         fontWeight = FontWeight.SemiBold,
@@ -93,8 +90,8 @@ fun AddProject(
                     fontFamily = Poppins
                 )
                 TextField(
-                    value = ufvm.title,
-                    onValueChange = { ufvm.title = it },
+                    value = ufvm.projectTitle,
+                    onValueChange = { ufvm.projectTitle = it },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
@@ -110,8 +107,8 @@ fun AddProject(
                     fontFamily = Poppins
                 )
                 TextField(
-                    value = ufvm.type,
-                    onValueChange = { ufvm.type = it },
+                    value = ufvm.projectType,
+                    onValueChange = { ufvm.projectType = it },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
@@ -253,9 +250,9 @@ fun AddProject(
                 Spacer(Modifier.height(15.dp))
                 Text("Deskripsi", fontWeight = FontWeight.Medium, fontSize = 16.sp)
                 OutlinedTextField(
-                    value = "",
+                    value = ufvm.description,
                     shape = RoundedCornerShape(10.dp),
-                    onValueChange = {},
+                    onValueChange = { ufvm.description = it },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 10.dp)
@@ -264,14 +261,14 @@ fun AddProject(
                 Button(
                     onClick = {
                         val newProjectMap = hashMapOf(
-                            "name" to ufvm.title.text,
-                            "type" to ufvm.type.text,
+                            "name" to ufvm.projectTitle.text,
+                            "type" to ufvm.projectType.text,
                             "start_date" to "${ufvm.startMonth} ${ufvm.startYear}",
                             "end_date" to "${ufvm.endMonth} ${ufvm.endYear}",
                             "description" to ufvm.description.text
                         )
                         val newProjectInstance = Project(
-                            ufvm.title.text,
+                            ufvm.projectTitle.text,
                             ufvm.description.text,
                             "${ufvm.startMonth} ${ufvm.startYear}",
                             "${ufvm.endMonth} ${ufvm.endYear}",
@@ -279,13 +276,9 @@ fun AddProject(
                         )
                         homeViewModel.addUserProject(newProjectMap, newProjectInstance)
                     },
-                    Modifier
-                        .padding(horizontal = 20.dp, vertical = 10.dp)
-                        .fillMaxWidth(),
+                    Modifier.padding(horizontal = 20.dp, vertical = 10.dp).fillMaxWidth(),
                     shape = RoundedCornerShape(15.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color(0xFF1C6973)
-                    )
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1C6973))
                 ) {
                     Text("Simpan", fontFamily = Poppins, color = Color.White)
                 }
@@ -335,7 +328,7 @@ fun YearSheet(sheetContent: SheetContent, ufvm: UserFieldViewModel, hideSheetSta
     }
     val startYear = if (sheetContent == SheetContent.START_YEARS) 1990 else ufvm.startYear.toInt() + 1
     Column(Modifier.verticalScroll(rememberScrollState())) {
-        for (i in startYear..2023) {
+        for (i in startYear..2030) {
             ClickableText(
                 AnnotatedString("$i"),
                 Modifier

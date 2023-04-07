@@ -64,7 +64,7 @@ fun ProfileScreen(viewModel: HomeViewModel = viewModel(), navController: NavHost
                             .size(130.dp)
                     )
                     Box(Modifier.padding(top = 65.dp)) {
-                        IconButton(onClick = { /*TODO*/ }) {
+                        IconButton(onClick = { navController.navigate(Screen.Profile.route + "/edit") }) {
                             Icon(
                                 painterResource(R.drawable.edit_icon), null,
                                 tint = Color(0xFF1C6973)
@@ -124,7 +124,9 @@ fun ProfileScreen(viewModel: HomeViewModel = viewModel(), navController: NavHost
             EducationSection(it, false)
         }
         item {
-            HeaderSection("Pengalaman") { }
+            HeaderSection("Pengalaman") {
+                navController.navigate(Screen.Profile.route + "/experiences")
+            }
         }
         items(userExperiences) {
             ExperienceSection(it, false)

@@ -23,9 +23,9 @@ class HomeViewModel : ViewModel() {
     var user by mutableStateOf(User())
 
     var sheetContent: SheetContent by mutableStateOf(SheetContent.NOTE)
-
     val months = listOf("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
     "September", "Oktober", "November", "Desember")
+    var fieldUiState: FieldUiState by mutableStateOf(FieldUiState.Default)
 
     private val _userProjects = mutableStateListOf<Project>()
     val userProjects: List<Project> = _userProjects
@@ -47,15 +47,25 @@ class HomeViewModel : ViewModel() {
             }
     }
 
-    fun addUserProject(newProject: HashMap<String, Any>) {
+    fun clearLists() {
+        _userProjects.clear()
+        _userEducations.clear()
+        _userExperiences.clear()
+        _userAchievements.clear()
+    }
+
+    fun addUserProject(newProjectMap: HashMap<String, String>, newProjectInstance: Project) {
         val id = UUID.randomUUID().toString()
         val projectsUsers = hashMapOf(
             "project_id" to id,
             "user_id" to currentUserId
         )
         viewModelScope.launch {
-            db.collection("projects").document(id).set(newProject)
+            fieldUiState = FieldUiState.Loading
+            db.collection("projects").document(id).set(newProjectMap)
             db.collection("projects_users").add(projectsUsers)
+            _userProjects.add(newProjectInstance)
+            fieldUiState = FieldUiState.Success
         }
     }
 

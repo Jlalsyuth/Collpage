@@ -27,7 +27,7 @@ fun FilterScreen() {
     val scope = rememberCoroutineScope()
 
     ModalBottomSheetLayout(
-        { }, sheetState = sheetState,
+        { Text("Huuuuaaaaaa") }, sheetState = sheetState,
         sheetShape = RoundedCornerShape(20.dp, 20.dp)
     ) {
         Column(
@@ -35,15 +35,18 @@ fun FilterScreen() {
                 .padding(horizontal = 8.dp)
                 .padding(top = 20.dp)
         ) {
-            Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(painterResource(R.drawable.back_arrow), null)
+            Box {
+                Row(Modifier.fillMaxWidth(), Arrangement.Start) {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(painterResource(R.drawable.back_arrow), null)
+                    }
                 }
-                Text(
-                    "Filter", fontFamily = Poppins,
-                    fontWeight = FontWeight.SemiBold, fontSize = 24.sp
-                )
-                Divider()
+                Row(Modifier.fillMaxWidth(), Arrangement.Center) {
+                    Text(
+                        "Filter", fontFamily = Poppins,
+                        fontWeight = FontWeight.SemiBold, fontSize = 24.sp
+                    )
+                }
             }
             Column(Modifier.padding(top = 12.dp)) {
                 Text(

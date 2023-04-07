@@ -64,8 +64,8 @@ fun AddEducation(homeViewModel: HomeViewModel, ufvm: UserFieldViewModel = viewMo
             Column(Modifier.padding(horizontal = 15.dp)) {
                 Text("Nama Instansi", fontFamily = Poppins, fontWeight = FontWeight.Medium)
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = ufvm.almamaterName,
+                    onValueChange = { ufvm.almamaterName = it },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
@@ -92,7 +92,7 @@ fun AddEducation(homeViewModel: HomeViewModel, ufvm: UserFieldViewModel = viewMo
                             Arrangement.SpaceBetween
                         ) {
                             Text(
-                                "2023",
+                                ufvm.yearIn,
                                 fontSize = 12.sp,
                                 fontFamily = Poppins,
                                 modifier = Modifier.padding(5.dp)
@@ -120,7 +120,7 @@ fun AddEducation(homeViewModel: HomeViewModel, ufvm: UserFieldViewModel = viewMo
                             Arrangement.SpaceBetween
                         ) {
                             Text(
-                                "2023",
+                                ufvm.yearOut,
                                 fontSize = 12.sp,
                                 fontFamily = Poppins,
                                 modifier = Modifier.padding(5.dp)
@@ -133,26 +133,22 @@ fun AddEducation(homeViewModel: HomeViewModel, ufvm: UserFieldViewModel = viewMo
                     }
                 }
                 Spacer(Modifier.height(25.dp))
-                Text("Nama Instansi", fontFamily = Poppins, fontWeight = FontWeight.Medium)
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(30.dp)
-                        .background(getInputColor(), RoundedCornerShape(8.dp)),
-                    Arrangement.SpaceBetween
-                ) {
-                    Text("Ilmu Komputer", fontFamily = Poppins, fontWeight = FontWeight.Medium)
-                    Icon(
-                        painterResource(R.drawable.arrow_down), null,
-                        Modifier.padding(top = 11.dp, end = 5.dp)
-                    )
+                Text("Bidang", fontFamily = Poppins, fontWeight = FontWeight.Medium)
+                Surface(Modifier.fillMaxWidth(), RoundedCornerShape(15.dp), getInputColor()) {
+                    Row(Modifier.fillMaxWidth().padding(10.dp), Arrangement.SpaceBetween) {
+                        Text(ufvm.major, fontFamily = Poppins, fontWeight = FontWeight.Medium)
+                        Icon(
+                            painterResource(R.drawable.arrow_down), null,
+                            Modifier.padding(top = 11.dp, end = 5.dp)
+                        )
+                    }
                 }
                 Spacer(Modifier.height(25.dp))
                 Text("Aktivitas dan Kegiatan", fontFamily = Poppins, fontWeight = FontWeight.Medium)
                 OutlinedTextField(
-                    value = "",
+                    value = ufvm.eduActivity,
                     shape = RoundedCornerShape(10.dp),
-                    onValueChange = { },
+                    onValueChange = { ufvm.eduActivity = it },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 10.dp)

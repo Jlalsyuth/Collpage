@@ -33,7 +33,7 @@ fun LoginPage(
     navigateToHome: () -> Unit,
     navigateToForgotPass: (Int) -> Unit
 ) {
-    val rememberMeIcon = if (viewModel.rememberMe) R.drawable.vector_2 else R.drawable.add
+    val rememberMeIcon = if (viewModel.rememberMe) R.drawable.vector_2 else R.drawable.vector
     val tint = if (viewModel.rememberMe) Color(0xFF1C6973) else Color(0xFF909090)
     val passwordIconRes = if (viewModel.isPasswordVisible) R.drawable.mdi_eye_on
     else R.drawable.mdi_eye_off

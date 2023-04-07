@@ -1,114 +1,249 @@
 package com.example.collpage.ui.screens.user_fields.experiences
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.collpage.R
+import com.example.collpage.helper.getInputColor
+import com.example.collpage.ui.FieldUiState
 import com.example.collpage.ui.HomeViewModel
+import com.example.collpage.ui.SheetContent
+import com.example.collpage.ui.UserFieldViewModel
+import com.example.collpage.ui.screens.user_fields.project.MonthSheet
+import com.example.collpage.ui.screens.user_fields.project.YearSheet
 import com.example.collpage.ui.theme.Poppins
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AddExperience(viewModel: HomeViewModel) {
-    Column {
-        Box {
-            Surface(
-                Modifier
-                    .height(130.dp)
-                    .fillMaxWidth(), color = Color(0xFF1C6973)
-            ) { }
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                Text(
-                    "Tambah Pengalaman",
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = Poppins,
-                    fontSize = 24.sp
-                )
-            }
-        }
-        Text("Nama Kegiatan", fontWeight = FontWeight.Medium, fontSize = 16.sp)
-        TextField(
-            value = "",
-            onValueChange = {},
-            modifier = Modifier
-                .width(320.dp)
-                .padding(bottom = 20.dp)
-        )
-        Text("Posisi", fontWeight = FontWeight.Medium, fontSize = 16.sp)
-        TextField(
-            value = "",
-            onValueChange = {},
-            modifier = Modifier
-                .width(320.dp)
-                .padding(bottom = 20.dp)
-        )
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Column {
-                Text("Tahun Mulai", fontWeight = FontWeight.Medium, fontSize = 16.sp)
-                Button(
-                    onClick = { },
-                    shape = RoundedCornerShape(5.dp),
-                    border = BorderStroke(1.dp, Color(0xFF909090)),
-                    colors = ButtonDefaults.buttonColors(Color.White),
-                    modifier = Modifier
-                        .width(50.dp)
-                        .padding(end = 18.dp)
-                ) {
-                    Text(
-                        "Bulan tahun",
-                        fontSize = 12.sp,
-                        fontFamily = Poppins,
-                        color = Color(0xFF000000),
-                        modifier = Modifier.padding(5.dp)
-                    )
-                }
-            }
-            Column {
-                Text("Tahun Selesai", fontWeight = FontWeight.Medium, fontSize = 16.sp)
-                Button(
-                    onClick = { },
-                    shape = RoundedCornerShape(5.dp),
-                    border = BorderStroke(1.dp, Color(0xFF909090)),
-                    colors = ButtonDefaults.buttonColors(Color.White),
-                    modifier = Modifier
-                        .width(50.dp)
-                        .padding(end = 18.dp)
-                ) {
-                    Text(
-                        "Bulan Tahun",
-                        fontSize = 12.sp,
-                        fontFamily = Poppins,
-                        color = Color(0xFF000000),
-                        modifier = Modifier.padding(5.dp)
-                    )
-                }
-            }
-        }
-        Text("Deskripsi", fontWeight = FontWeight.Medium, fontSize = 16.sp)
-        OutlinedTextField(
-            value = "",
-            shape = RoundedCornerShape(10.dp),
-            onValueChange = {},
-            modifier = Modifier
-                .height(250.dp)
-                .width(320.dp)
-        )
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            Button(
-                onClick = { /*TODO*/ },
-                shape = RoundedCornerShape(25.dp),
-                colors = ButtonDefaults.buttonColors(Color(0xFF1C6973)),
-                modifier = Modifier
-                    .width(330.dp)
-                    .height(70.dp)
-                    .padding(end = 18.dp, top = 25.dp)
-            ) {
+fun AddExperience(
+    homeViewModel: HomeViewModel,
+    ufvm: UserFieldViewModel = viewModel(),
+    navigateBack: () -> Unit
+) {
+    val sheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded }
+    )
+    var sheetContent by remember { mutableStateOf(SheetContent.START_MONTHS) }
+    val scope = rememberCoroutineScope()
 
+    LaunchedEffect(homeViewModel.fieldUiState) {
+        if (homeViewModel.fieldUiState == FieldUiState.Success) {
+            navigateBack()
+        }
+    }
+
+    ModalBottomSheetLayout(
+        sheetContent = {
+            if (sheetContent == SheetContent.START_MONTHS || sheetContent == SheetContent.END_MONTHS) {
+                MonthSheet(sheetContent, homeViewModel.months, ufvm) {
+                    scope.launch {
+                        sheetState.hide()
+                    }
+                }
+            } else if (sheetContent == SheetContent.START_YEARS || sheetContent == SheetContent.END_YEARS) {
+                YearSheet(sheetContent, ufvm) {
+                    scope.launch {
+                        sheetState.hide()
+                    }
+                }
+            }
+        },
+        sheetState = sheetState,
+        sheetShape = RoundedCornerShape(20.dp, 20.dp)
+    ) {
+        Column {
+            Surface(Modifier.fillMaxWidth(), color = Color(0xFF1C6973)) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 20.dp), Arrangement.Start) {
+                    IconButton(onClick = navigateBack) {
+                        Icon(
+                            painterResource(R.drawable.back_arrow), null,
+                            Modifier, Color(0xFFE5E8CD)
+                        )
+                    }
+                }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 20.dp), Arrangement.Center) {
+                    Text(
+                        "Tambah Pengalaman",
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = Poppins,
+                        fontSize = 24.sp
+                    )
+                }
+            }
+            Column(Modifier.padding(horizontal = 15.dp)) {
+                Text("Nama Kegiatan", fontWeight = FontWeight.Medium, fontSize = 16.sp)
+                TextField(
+                    value = ufvm.experienceName,
+                    onValueChange = { ufvm.experienceName = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .padding(bottom = 20.dp),
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = MaterialTheme.colors.background
+                    )
+                )
+                Text("Posisi", fontWeight = FontWeight.Medium, fontSize = 16.sp)
+                TextField(
+                    value = ufvm.position,
+                    onValueChange = { ufvm.position = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .padding(bottom = 20.dp),
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = MaterialTheme.colors.background
+                    )
+                )
+                Text("Tanggal Mulai", fontWeight = FontWeight.Medium, fontSize = 16.sp)
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Row(
+                        Modifier
+                            .width(170.dp)
+                            .background(getInputColor(), RoundedCornerShape(8.dp))
+                            .clickable {
+                                sheetContent = SheetContent.END_MONTHS
+                                scope.launch {
+                                    if (sheetState.isVisible) sheetState.hide()
+                                    else sheetState.show()
+                                }
+                            },
+                        Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            ufvm.startMonth,
+                            fontSize = 12.sp,
+                            fontFamily = Poppins,
+                            modifier = Modifier.padding(5.dp)
+                        )
+                        Icon(
+                            painterResource(R.drawable.arrow_down), null,
+                            Modifier.padding(top = 11.dp, end = 5.dp)
+                        )
+                    }
+                    Row(
+                        Modifier
+                            .width(170.dp)
+                            .background(getInputColor(), RoundedCornerShape(8.dp))
+                            .clickable {
+                                sheetContent = SheetContent.START_YEARS
+                                scope.launch {
+                                    if (sheetState.isVisible) sheetState.hide()
+                                    else sheetState.show()
+                                }
+                            },
+                        Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            ufvm.startYear,
+                            fontSize = 12.sp,
+                            fontFamily = Poppins,
+                            modifier = Modifier.padding(5.dp)
+                        )
+                        Icon(
+                            painterResource(R.drawable.arrow_down), null,
+                            Modifier.padding(top = 11.dp, end = 5.dp)
+                        )
+                    }
+                }
+                Spacer(Modifier.height(15.dp))
+                Text("Tanggal Selesai", fontWeight = FontWeight.Medium, fontSize = 16.sp)
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Row(
+                        Modifier
+                            .width(170.dp)
+                            .background(getInputColor(), RoundedCornerShape(8.dp))
+                            .clickable {
+                                sheetContent = SheetContent.END_MONTHS
+                                scope.launch {
+                                    if (sheetState.isVisible) sheetState.hide()
+                                    else sheetState.show()
+                                }
+                            },
+                        Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            ufvm.endMonth,
+                            fontSize = 12.sp,
+                            fontFamily = Poppins,
+                            modifier = Modifier.padding(5.dp)
+                        )
+                        Icon(
+                            painterResource(R.drawable.arrow_down), null,
+                            Modifier.padding(top = 11.dp, end = 5.dp)
+                        )
+                    }
+                    Row(
+                        Modifier
+                            .width(170.dp)
+                            .background(getInputColor(), RoundedCornerShape(8.dp))
+                            .clickable {
+                                sheetContent = SheetContent.END_YEARS
+                                scope.launch {
+                                    if (sheetState.isVisible) sheetState.hide()
+                                    else sheetState.show()
+                                }
+                            },
+                        Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            ufvm.endYear,
+                            fontSize = 12.sp,
+                            fontFamily = Poppins,
+                            modifier = Modifier.padding(5.dp)
+                        )
+                        Icon(
+                            painterResource(R.drawable.arrow_down), null,
+                            Modifier.padding(top = 11.dp, end = 5.dp)
+                        )
+                    }
+                }
+                Text("Deskripsi", fontWeight = FontWeight.Medium, fontSize = 16.sp)
+                OutlinedTextField(
+                    value = ufvm.description,
+                    shape = RoundedCornerShape(10.dp),
+                    onValueChange = {},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp)
+                        .height(180.dp)
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(
+                        onClick = {
+
+                        },
+                        shape = RoundedCornerShape(25.dp),
+                        colors = ButtonDefaults.buttonColors(Color(0xFF1C6973)),
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp, vertical = 10.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Text("Simpan", fontFamily = Poppins, color = Color.White)
+                    }
+                }
             }
         }
     }

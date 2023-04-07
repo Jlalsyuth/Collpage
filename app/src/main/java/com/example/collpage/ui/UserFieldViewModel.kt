@@ -7,6 +7,12 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import com.example.collpage.helper.getDate
 
+sealed interface FieldUiState {
+    object Success : FieldUiState
+    object Loading : FieldUiState
+    object Default : FieldUiState
+}
+
 class UserFieldViewModel : ViewModel() {
     var title by mutableStateOf(TextFieldValue(""))
     var type by mutableStateOf(TextFieldValue(""))

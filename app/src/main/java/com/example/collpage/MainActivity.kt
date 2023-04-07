@@ -31,8 +31,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Composable
-fun getInputColor(): Color {
-    return if (isSystemInDarkTheme()) Color(0xFF262626) else Color(0xFFD9D9D9)
-}

@@ -17,12 +17,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.collpage.R
 import com.example.collpage.ui.*
+import com.example.collpage.ui.navigation.Screen
 import com.example.collpage.ui.theme.Poppins
 
 @Composable
-fun ProfileScreen(viewModel: HomeViewModel = viewModel()) {
+fun ProfileScreen(viewModel: HomeViewModel = viewModel(), navController: NavHostController) {
     val user = viewModel.user
     val userProjects = viewModel.userProjects
     val userEducations = viewModel.userEducations
@@ -104,28 +106,31 @@ fun ProfileScreen(viewModel: HomeViewModel = viewModel()) {
                 Text(user.profile_desc, Modifier.padding(end = 22.dp, bottom = 10.dp),
                     fontFamily = Poppins, fontSize = 14.sp)
             }
-            Divider(thickness = 1.dp)
         }
         item {
-            HeaderSection("Projects")
+            HeaderSection("Projects") {
+                navController.navigate(Screen.Profile.route + "/projects")
+            }
         }
         items(userProjects) {
-            ProjectSection(it)
+            ProjectSection(it, false)
         }
         item {
-            HeaderSection("Pendidikan")
+            HeaderSection("Pendidikan") {
+                navController.navigate(Screen.Profile.route + "/educations")
+            }
         }
         items(userEducations) {
-            EducationSection(it)
+            EducationSection(it, false)
         }
         item {
-            HeaderSection("Pengalaman")
+            HeaderSection("Pengalaman") { }
         }
         items(userExperiences) {
-            ExperienceSection(it)
+            ExperienceSection(it, false)
         }
         item {
-            HeaderSection("Prestasi")
+            HeaderSection("Prestasi") { }
         }
         items(userAchievements) {
             AchievementSection(it)
@@ -134,9 +139,19 @@ fun ProfileScreen(viewModel: HomeViewModel = viewModel()) {
 }
 
 @Composable
-fun ProjectSection(project: Project) {
+fun ProjectSection(project: Project, isEditEnabled: Boolean) {
     Column(Modifier.padding(start = 18.dp, top = 4.dp)) {
-        Text(project.name, fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+        Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {
+            Text(project.name, fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+            if (isEditEnabled) {
+                IconButton(onClick = { }) {
+                    Icon(
+                        painterResource(R.drawable.edit_icon), null,
+                        tint = Color(0xFF1C6973)
+                    )
+                }
+            }
+        }
         Text(project.type, Modifier.padding(top = 5.dp), fontFamily = Poppins, fontSize = 14.sp)
         Text("${project.start_date} - ${project.end_date}", fontFamily = Poppins, fontSize = 14.sp)
         Text(
@@ -149,9 +164,19 @@ fun ProjectSection(project: Project) {
 }
 
 @Composable
-fun EducationSection(education: Education) {
+fun EducationSection(education: Education, isEditEnabled: Boolean) {
     Column(Modifier.padding(start = 18.dp, top = 4.dp)) {
-        Text(education.name, fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+        Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {
+            Text(education.name, fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+            if (isEditEnabled) {
+                IconButton(onClick = { }) {
+                    Icon(
+                        painterResource(R.drawable.edit_icon), null,
+                        tint = Color(0xFF1C6973)
+                    )
+                }
+            }
+        }
         Text(education.major, Modifier.padding(top = 5.dp), fontFamily = Poppins, fontSize = 14.sp)
         Text("${education.year_in} - ${education.year_out}", fontFamily = Poppins, fontSize = 14.sp)
         education.activities.forEach {
@@ -161,10 +186,20 @@ fun EducationSection(education: Education) {
 }
 
 @Composable
-fun ExperienceSection(experience: Experience) {
+fun ExperienceSection(experience: Experience, isEditEnabled: Boolean) {
     val yearOut = if (experience.year_out == 0) "sekarang" else experience.year_out.toString()
     Column(Modifier.padding(start = 18.dp, top = 4.dp)) {
-        Text(experience.name, fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+        Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {
+            Text(experience.name, fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+            if (isEditEnabled) {
+                IconButton(onClick = { }) {
+                    Icon(
+                        painterResource(R.drawable.edit_icon), null,
+                        tint = Color(0xFF1C6973)
+                    )
+                }
+            }
+        }
         Text(experience.department, Modifier.padding(top = 5.dp), fontFamily = Poppins, fontSize = 14.sp)
         Text("${experience.year_in} - $yearOut", fontFamily = Poppins, fontSize = 14.sp)
         experience.activities.forEach {
@@ -174,7 +209,7 @@ fun ExperienceSection(experience: Experience) {
 }
 
 @Composable
-fun HeaderSection(title: String) {
+fun HeaderSection(title: String, onEditIconClick: () -> Unit) {
     Divider(Modifier.padding(top = 8.dp), thickness = 1.dp)
     Row(
         Modifier
@@ -182,7 +217,7 @@ fun HeaderSection(title: String) {
             .padding(top = 10.dp, start = 18.dp), Arrangement.SpaceBetween) {
         Text(title, Modifier.padding(top = 4.dp),
             fontFamily = Poppins, fontWeight = FontWeight.SemiBold)
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = onEditIconClick) {
             Icon(
                 painterResource(R.drawable.edit_icon), null,
                 tint = Color(0xFF1C6973)

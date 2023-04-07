@@ -20,22 +20,29 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.collpage.R
 import com.example.collpage.helper.getInputColor
-import com.example.collpage.ui.HomeViewModel
-import com.example.collpage.ui.SheetContent
-import com.example.collpage.ui.UserFieldViewModel
-import com.example.collpage.ui.screens.CommentSheet
+import com.example.collpage.ui.*
 import com.example.collpage.ui.theme.Poppins
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AddProject(homeViewModel: HomeViewModel, ufvm: UserFieldViewModel = viewModel()) {
+fun AddProject(
+    homeViewModel: HomeViewModel,
+    ufvm: UserFieldViewModel = viewModel(),
+    navigateBack: () -> Unit
+) {
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
         confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded }
     )
     var sheetContent by remember { mutableStateOf(SheetContent.START_MONTHS) }
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(homeViewModel.fieldUiState) {
+        if (homeViewModel.fieldUiState == FieldUiState.Success) {
+            navigateBack()
+        }
+    }
 
     ModalBottomSheetLayout(
         sheetContent = {
@@ -57,16 +64,17 @@ fun AddProject(homeViewModel: HomeViewModel, ufvm: UserFieldViewModel = viewMode
         sheetShape = RoundedCornerShape(20.dp, 20.dp)
     ) {
         Column {
-            Surface(
-                Modifier
-                    .fillMaxWidth(), color = Color(0xFF1C6973)
-            ) {
+            Surface(Modifier.fillMaxWidth(), color = Color(0xFF1C6973)) {
                 Row(
                     Modifier
                         .fillMaxWidth()
                         .padding(vertical = 20.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
+                    IconButton(onClick = navigateBack) {
+                        Icon(painterResource(R.drawable.back_arrow), null,
+                            Modifier, Color(0xFFE5E8CD))
+                    }
                     Text(
                         "Tambah Project",
                         fontWeight = FontWeight.SemiBold,
@@ -255,14 +263,21 @@ fun AddProject(homeViewModel: HomeViewModel, ufvm: UserFieldViewModel = viewMode
                 )
                 Button(
                     onClick = {
-                        val newProject = hashMapOf(
-                            "name" to ufvm.title,
-                            "type" to ufvm.type,
+                        val newProjectMap = hashMapOf(
+                            "name" to ufvm.title.text,
+                            "type" to ufvm.type.text,
                             "start_date" to "${ufvm.startMonth} ${ufvm.startYear}",
                             "end_date" to "${ufvm.endMonth} ${ufvm.endYear}",
-                            "description" to ufvm.description
+                            "description" to ufvm.description.text
                         )
-                        homeViewModel.addUserProject(newProject)
+                        val newProjectInstance = Project(
+                            ufvm.title.text,
+                            ufvm.description.text,
+                            "${ufvm.startMonth} ${ufvm.startYear}",
+                            "${ufvm.endMonth} ${ufvm.endYear}",
+                            ufvm.description.text
+                        )
+                        homeViewModel.addUserProject(newProjectMap, newProjectInstance)
                     },
                     Modifier
                         .padding(horizontal = 20.dp, vertical = 10.dp)
@@ -318,8 +333,9 @@ fun YearSheet(sheetContent: SheetContent, ufvm: UserFieldViewModel, hideSheetSta
             ufvm.endYear = year
         }
     }
+    val startYear = if (sheetContent == SheetContent.START_YEARS) 1990 else ufvm.startYear.toInt() + 1
     Column(Modifier.verticalScroll(rememberScrollState())) {
-        for (i in 1990..2023) {
+        for (i in startYear..2023) {
             ClickableText(
                 AnnotatedString("$i"),
                 Modifier

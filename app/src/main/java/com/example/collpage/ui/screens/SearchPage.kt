@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.collpage.R
-import com.example.collpage.getInputColor
+import com.example.collpage.helper.getInputColor
 import com.example.collpage.ui.SearchViewModel
 import com.example.collpage.ui.theme.Poppins
 

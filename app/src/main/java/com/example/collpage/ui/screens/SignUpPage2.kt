@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.collpage.R
-import com.example.collpage.getInputColor
+import com.example.collpage.helper.getInputColor
 import com.example.collpage.ui.AuthUiState
 import com.example.collpage.ui.AuthViewModel
 import com.example.collpage.ui.theme.Poppins
@@ -32,7 +32,7 @@ fun SignUpPage2(
     viewModel: AuthViewModel,
     navigateToHome: () -> Unit
 ) {
-    val acceptTermsIcon = if (viewModel.rememberMe) R.drawable.vector_2 else R.drawable.vector
+    val acceptTermsIcon = if (viewModel.rememberMe) R.drawable.vector_2 else R.drawable.add
     val tint = if (viewModel.rememberMe) Color(0xFF1C6973) else Color(0xFF909090)
     val passwordIconRes = if (viewModel.isPasswordVisible) R.drawable.mdi_eye_on
     else R.drawable.mdi_eye_off

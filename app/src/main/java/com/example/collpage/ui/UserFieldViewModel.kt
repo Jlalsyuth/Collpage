@@ -14,11 +14,20 @@ sealed interface FieldUiState {
 }
 
 class UserFieldViewModel : ViewModel() {
-    var title by mutableStateOf(TextFieldValue(""))
-    var type by mutableStateOf(TextFieldValue(""))
+    var projectTitle by mutableStateOf(TextFieldValue(""))
+    var projectType by mutableStateOf(TextFieldValue(""))
     var startMonth by mutableStateOf(getDate("MMMM"))
     var endMonth by mutableStateOf(getDate("MMMM"))
     var startYear by mutableStateOf("2023")
     var endYear by mutableStateOf("2023")
     var description by mutableStateOf(TextFieldValue(""))
+
+    var almamaterName by mutableStateOf(TextFieldValue(""))
+    var yearIn by mutableStateOf("2023")
+    var yearOut by mutableStateOf("2023")
+    var major by mutableStateOf("Bidang")
+    var eduActivity by mutableStateOf(TextFieldValue(""))
+
+    var experienceName by mutableStateOf(TextFieldValue(""))
+    var position by mutableStateOf(TextFieldValue(""))
 }

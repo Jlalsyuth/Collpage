@@ -78,7 +78,7 @@ fun AppNavHost(navController: NavHostController) {
             }
         }
         composable(Screen.Profile.route + "/projects/add") {
-            AddProject(homeViewModel)
+            AddProject(homeViewModel) { navController.popBackStack() }
         }
         composable(Screen.Profile.route + "/educations") {
             EducationScreen(homeViewModel) {

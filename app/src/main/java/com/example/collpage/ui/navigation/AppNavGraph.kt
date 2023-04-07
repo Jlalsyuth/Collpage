@@ -9,6 +9,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.collpage.ui.AuthViewModel
 import com.example.collpage.ui.HomeViewModel
 import com.example.collpage.ui.screens.*
+import com.example.collpage.ui.screens.user_fields.educations.AddEducation
+import com.example.collpage.ui.screens.user_fields.educations.EducationScreen
+import com.example.collpage.ui.screens.user_fields.experiences.AddExperience
+import com.example.collpage.ui.screens.user_fields.experiences.ExperienceScreen
+import com.example.collpage.ui.screens.user_fields.project.AddProject
+import com.example.collpage.ui.screens.user_fields.project.ProjectScreen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -60,11 +66,35 @@ fun AppNavHost(navController: NavHostController) {
         composable(Screen.EmailCheck.route) {
             EmailCheck { navController.navigate(Screen.Login.route) }
         }
-        composable(Screen.Profile.route) {
-            ProfileScreen(homeViewModel)
-        }
         composable(Screen.SearchPage.route) {
             SearchPage { navController.navigate(Screen.Filter.route) }
+        }
+        composable(Screen.Profile.route) {
+            ProfileScreen(homeViewModel, navController)
+        }
+        composable(Screen.Profile.route + "/projects") {
+            ProjectScreen(homeViewModel) {
+                navController.navigate(Screen.Profile.route + "/projects/add" )
+            }
+        }
+        composable(Screen.Profile.route + "/projects/add") {
+            AddProject(homeViewModel)
+        }
+        composable(Screen.Profile.route + "/educations") {
+            EducationScreen(homeViewModel) {
+                navController.navigate(Screen.Profile.route + "/educations/add" )
+            }
+        }
+        composable(Screen.Profile.route + "/educations/add") {
+            AddEducation(homeViewModel)
+        }
+        composable(Screen.Profile.route + "/experiences") {
+            ExperienceScreen(homeViewModel) {
+                navController.navigate(Screen.Profile.route + "/experiences/add" )
+            }
+        }
+        composable(Screen.Profile.route + "/experiences/add") {
+            AddExperience(homeViewModel)
         }
         composable(Screen.Filter.route) {
             FilterScreen()

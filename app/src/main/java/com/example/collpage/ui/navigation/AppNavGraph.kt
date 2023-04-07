@@ -73,7 +73,7 @@ fun AppNavHost(navController: NavHostController) {
             ProfileScreen(homeViewModel, navController)
         }
         composable(Screen.Profile.route + "/projects") {
-            ProjectScreen(homeViewModel) {
+            ProjectScreen(homeViewModel, { navController.popBackStack() }) {
                 navController.navigate(Screen.Profile.route + "/projects/add" )
             }
         }
@@ -89,15 +89,18 @@ fun AppNavHost(navController: NavHostController) {
             AddEducation(homeViewModel)
         }
         composable(Screen.Profile.route + "/experiences") {
-            ExperienceScreen(homeViewModel) {
+            ExperienceScreen(homeViewModel, { navController.popBackStack() }) {
                 navController.navigate(Screen.Profile.route + "/experiences/add" )
             }
         }
         composable(Screen.Profile.route + "/experiences/add") {
-            AddExperience(homeViewModel)
+            AddExperience(homeViewModel) { navController.popBackStack() }
         }
         composable(Screen.Filter.route) {
             FilterScreen()
+        }
+        composable(Screen.Profile.route + "/edit") {
+            EditProfile(homeViewModel)
         }
     }
 }

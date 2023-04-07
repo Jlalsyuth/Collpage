@@ -89,7 +89,13 @@ fun HomeScreen(
                 }
             },
             bottomBar = { BottomBar(viewModel) },
-            drawerContent = { HomeNavDrawer(userData, navigateToWelcome) }
+            drawerContent = {
+                HomeNavDrawer(userData) {
+                    Firebase.auth.signOut()
+                    viewModel.clearLists()
+                    navigateToWelcome()
+                }
+            }
         ) {
             Column(Modifier.padding(it)) {
                 Row(
@@ -226,7 +232,9 @@ fun HomeScreen(
                             painterResource(R.drawable.rectangle_2), null
                         )
                         Row(
-                            Modifier.fillMaxWidth().padding(horizontal = 25.dp),
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 25.dp),
                             Arrangement.SpaceBetween
                         ) {
                             IconButton({ /*TODO*/ }) {
@@ -320,7 +328,7 @@ fun BottomBar(viewModel: HomeViewModel) {
 }
 
 @Composable
-fun HomeNavDrawer(userData: User, navigateToWelcome: () -> Unit) {
+fun HomeNavDrawer(userData: User, onLogoutClick: () -> Unit) {
     Column(
         Modifier
             .fillMaxSize()
@@ -360,10 +368,7 @@ fun HomeNavDrawer(userData: User, navigateToWelcome: () -> Unit) {
             )
         }
         Button(
-            onClick = {
-                Firebase.auth.signOut()
-                navigateToWelcome()
-            },
+            onClick = onLogoutClick,
             shape = RoundedCornerShape(17.dp),
             colors = ButtonDefaults.buttonColors(Color.Red)
         ) {

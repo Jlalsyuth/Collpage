@@ -15,7 +15,7 @@ import com.example.collpage.ui.screens.ExperienceSection
 import com.example.collpage.ui.theme.Poppins
 
 @Composable
-fun ExperienceScreen(viewModel: HomeViewModel, navigateToAdd: () -> Unit) {
+fun ExperienceScreen(viewModel: HomeViewModel, navigateBack: () -> Unit, navigateToAdd: () -> Unit) {
     Column {
         Surface(Modifier.fillMaxWidth(), color = Color(0xFF1C6973)) {
             Row(
@@ -24,7 +24,7 @@ fun ExperienceScreen(viewModel: HomeViewModel, navigateToAdd: () -> Unit) {
                     .padding(horizontal = 14.dp, vertical = 25.dp),
                 Arrangement.SpaceBetween
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = navigateBack) {
                     Icon(
                         painterResource(R.drawable.back_arrow), null,
                         tint = Color(0xFFE5E8CD)

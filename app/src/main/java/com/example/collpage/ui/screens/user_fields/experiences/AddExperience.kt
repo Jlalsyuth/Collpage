@@ -1,4 +1,4 @@
-package com.example.collpage.ui.screens
+package com.example.collpage.ui.screens.user_fields.experiences
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
